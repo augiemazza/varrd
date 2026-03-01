@@ -21,6 +21,20 @@ Add this to your MCP config and you're done — all 7 tools become available aut
 
 No API key required. Anonymous agents are auto-created with free credits on first connection.
 
+## Authentication & Passkey
+
+On first connection without an API key, VARRD auto-creates an anonymous agent and returns:
+- A **JWT token** (in the `X-Varrd-Token` response header) — use this for subsequent requests
+- A **passkey** (in the `X-Varrd-Passkey` header and in the initialize instructions `_meta`) — format: `VARRD-XXXXXXXXXXXXXXXX`
+
+**Important:** Save both. The token authenticates requests. The passkey is the user's identity — all strategies, credits, and test results are tied to it.
+
+**Account linking:** The user can later go to `app.varrd.com`, click "Link your AI agent", and enter their passkey with an email and password. This creates a full account and merges all the agent's data (strategies, credits) into it. After linking, the agent's JWT continues to work — it resolves to the linked account automatically.
+
+**Tell the user:** When you receive a passkey for the first time, inform the user clearly: "Your VARRD passkey is VARRD-XXXX. Save this — it's the key to all your strategies. You can link it to an account at app.varrd.com."
+
+If a user already has an API key, pass it in the Authorization header: `Bearer <key>`.
+
 ## If You're Writing Python
 
 ```python

@@ -100,6 +100,41 @@ That's it. Your AI can now scan strategies, research ideas, and get trade setups
 
 ---
 
+## Authentication & Your Passkey
+
+The first time you use VARRD (via Python, CLI, or MCP), an account is automatically created for you. You'll receive a **passkey** — a unique key that looks like `VARRD-XXXXXXXXXXXXXXXX`. This is your identity.
+
+```
+  VARRD account created.
+  Your passkey: VARRD-A3X9K2B7T4M8P1Q6
+  Saved to: ~/.varrd/credentials
+
+  Keep this passkey safe. To see your strategies in the
+  browser, go to app.varrd.com and link your agent using
+  this passkey with an email and password.
+```
+
+**How it works:**
+
+1. **First use** — account auto-created, passkey saved to `~/.varrd/credentials`, free credits granted
+2. **Ongoing use** — all your strategies, test results, and credits are tied to this passkey
+3. **Link to browser** — go to [app.varrd.com](https://app.varrd.com), click "Link your AI agent", enter your passkey with an email and password. Your agent's strategies and credits merge into your account.
+4. **After linking** — sign in with email/password to see everything your agent discovered, or keep using the CLI/API with the same passkey. Both work.
+
+**Keep your passkey safe.** It's the key to your strategies. If you lose it before linking to an email, your work is gone. After linking, your email and password are your login — the passkey is just for the initial connection.
+
+You can also pass a key explicitly:
+
+```python
+v = VARRD(api_key="your-key")         # Python
+```
+```bash
+varrd --key your-key scan              # CLI
+export VARRD_API_KEY=your-key          # Environment variable
+```
+
+---
+
 ## What You Get Back
 
 ### Edge Found

@@ -300,6 +300,18 @@ class VARRD:
             self._api_key = new_token
             passkey = r.headers.get("X-Varrd-Passkey")
             save_credentials(new_token, passkey)
+            if passkey:
+                import sys
+                print(
+                    f"\n  VARRD account created.\n"
+                    f"  Your passkey: {passkey}\n"
+                    f"  Saved to: ~/.varrd/credentials\n"
+                    f"\n"
+                    f"  Keep this passkey safe. To see your strategies in the\n"
+                    f"  browser, go to app.varrd.com and link your agent using\n"
+                    f"  this passkey with an email and password.\n",
+                    file=sys.stderr,
+                )
 
         try:
             data = r.json()
