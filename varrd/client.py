@@ -267,7 +267,12 @@ class VARRD:
         return self._req_id
 
     def _post(self, body: dict) -> tuple[requests.Response, dict | None]:
-        """Send a JSON-RPC request to the MCP endpoint. Retries on 429."""
+        """Send a JSON-RPC request to the MCP endpoint. Retries on 429.
+
+        Handles both JSON and SSE responses. The server uses SSE for tools/call
+        to prevent CloudFront timeout on long-running operations (research,
+        autonomous mode). SSE sends keepalives every 15s while the tool runs.
+        """
         max_retries = 3
         for attempt in range(max_retries + 1):
             token = self._ensure_auth()
@@ -285,9 +290,11 @@ class VARRD:
                 json=body,
                 headers=headers,
                 timeout=self._timeout,
+                stream=True,
             )
 
             if r.status_code == 429 and attempt < max_retries:
+                r.close()
                 wait = 2 ** attempt  # 1s, 2s, 4s
                 time.sleep(wait)
                 continue
@@ -313,12 +320,47 @@ class VARRD:
                     file=sys.stderr,
                 )
 
-        try:
-            data = r.json()
-        except (ValueError, requests.JSONDecodeError):
-            data = None
+        # Parse response based on content type
+        content_type = r.headers.get("content-type", "")
 
+        if "text/event-stream" in content_type:
+            # SSE response — parse events, extract JSON-RPC result
+            data = self._parse_sse(r)
+        else:
+            # Standard JSON response
+            try:
+                data = r.json()
+            except (ValueError, requests.JSONDecodeError):
+                data = None
+
+        r.close()
         return r, data
+
+    @staticmethod
+    def _parse_sse(response: requests.Response) -> dict | None:
+        """Parse SSE stream, extracting JSON-RPC result from message events.
+
+        Ignores keepalive comments (lines starting with ':').
+        Tracks event types: 'progress' events are logged, 'message' events
+        contain the final JSON-RPC result.
+        """
+        data = None
+        current_event = None
+        for line in response.iter_lines(decode_unicode=True):
+            if line.startswith("event: "):
+                current_event = line[7:]
+            elif line.startswith("data: "):
+                try:
+                    parsed = json.loads(line[6:])
+                    if current_event == "message" or current_event is None:
+                        data = parsed
+                    # progress events are informational — skip for now
+                except json.JSONDecodeError:
+                    pass
+                current_event = None
+            elif line == "":
+                current_event = None
+        return data
 
     def _initialize(self):
         """MCP handshake — initialize + notifications/initialized."""
@@ -369,7 +411,7 @@ class VARRD:
             raise RateLimited("Rate limited. Wait and retry.")
 
         if not data:
-            raise VARRDError(f"HTTP {r.status_code}: {r.text[:500]}")
+            raise VARRDError(f"HTTP {r.status_code}: No response data")
 
         # Check for JSON-RPC error
         if "error" in data:

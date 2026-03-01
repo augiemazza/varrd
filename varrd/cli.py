@@ -207,9 +207,43 @@ def cmd_auth(args):
             print(f"  Or set VARRD_API_KEY environment variable.")
 
 
+def cmd_agent_instructions(args):
+    from varrd.instructions import AGENT_INSTRUCTIONS
+    print(AGENT_INSTRUCTIONS)
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
+def _print_welcome():
+    """Print a rich welcome guide when running `varrd` with no args."""
+    print(f"""
+  {BOLD}VARRD{RESET} — Trading edge discovery
+
+  {BOLD}Quick start:{RESET}
+    varrd research "When RSI drops below 25 on ES, is there a bounce?"
+    varrd discover "mean reversion on futures"
+    varrd scan --only-firing
+
+  {BOLD}Commands:{RESET}
+    research <idea>        Multi-turn research (auto-follows workflow)
+    discover <topic>       Autonomous edge discovery
+    scan                   What's firing right now
+    search <query>         Find saved strategies
+    hypothesis <id>        Get strategy details
+    balance                Check credits
+    auth status|clear      Manage authentication
+
+  {DIM}First time? Just run a research command — VARRD auto-creates
+  an account and saves credentials to ~/.varrd/credentials.{RESET}
+
+  {BOLD}AI agent?{RESET} Run: varrd agent-instructions
+
+  MCP (recommended for AI): https://app.varrd.com/mcp
+  Docs: https://github.com/varrd-ai/varrd
+""")
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -261,11 +295,23 @@ def main():
     auth_sub.add_parser("status", help="Show current auth status")
     auth_sub.add_parser("clear", help="Clear stored credentials")
 
+    # agent-instructions
+    sub.add_parser("agent-instructions", help="Print instructions for AI agents using this CLI")
+
     args = parser.parse_args()
 
     if not args.command:
-        parser.print_help()
-        sys.exit(1)
+        _print_welcome()
+        sys.exit(0)
+
+    # First-run welcome (no credentials yet)
+    from varrd.auth import get_credentials
+    if not get_credentials() and args.command not in ("auth", "agent-instructions"):
+        print(f"\n  {BOLD}Welcome to VARRD!{RESET}")
+        print(f"  An account will be auto-created on your first API call.")
+        print(f"  Save your passkey when it appears — you'll need it to")
+        print(f"  access your research at app.varrd.com")
+        print(f"  {DIM}Tip: Run 'varrd agent-instructions' for full AI agent guide{RESET}\n")
 
     cmd_map = {
         "balance": cmd_balance,
@@ -276,6 +322,7 @@ def main():
         "hypothesis": cmd_hypothesis,
         "reset": cmd_reset,
         "auth": cmd_auth,
+        "agent-instructions": cmd_agent_instructions,
     }
 
     cmd_map[args.command](args)
