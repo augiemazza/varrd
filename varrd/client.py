@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import time
 from typing import Any
 
 import requests
@@ -266,23 +267,32 @@ class VARRD:
         return self._req_id
 
     def _post(self, body: dict) -> tuple[requests.Response, dict | None]:
-        """Send a JSON-RPC request to the MCP endpoint."""
-        token = self._ensure_auth()
-        headers: dict[str, str] = {
-            "Content-Type": "application/json",
-            "Accept": "application/json, text/event-stream",
-        }
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
-        if self._mcp_session_id:
-            headers["Mcp-Session-Id"] = self._mcp_session_id
+        """Send a JSON-RPC request to the MCP endpoint. Retries on 429."""
+        max_retries = 3
+        for attempt in range(max_retries + 1):
+            token = self._ensure_auth()
+            headers: dict[str, str] = {
+                "Content-Type": "application/json",
+                "Accept": "application/json, text/event-stream",
+            }
+            if token:
+                headers["Authorization"] = f"Bearer {token}"
+            if self._mcp_session_id:
+                headers["Mcp-Session-Id"] = self._mcp_session_id
 
-        r = requests.post(
-            f"{self._base_url}/mcp",
-            json=body,
-            headers=headers,
-            timeout=self._timeout,
-        )
+            r = requests.post(
+                f"{self._base_url}/mcp",
+                json=body,
+                headers=headers,
+                timeout=self._timeout,
+            )
+
+            if r.status_code == 429 and attempt < max_retries:
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                time.sleep(wait)
+                continue
+
+            break
 
         # Check for auto-created token in response headers
         new_token = r.headers.get("X-Varrd-Token")
