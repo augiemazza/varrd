@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "varrd"
+dynamic = ["version"]
+description = "Trading edge discovery. Test any idea with real market data."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "VARRD", email = "hello@varrd.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+keywords = ["trading", "quant", "edge", "backtest", "market-data", "mcp"]
+dependencies = [
+    "requests>=2.28",
+    "pydantic>=2.0",
+]
+
+[project.scripts]
+varrd = "varrd.cli:main"
+
+[project.urls]
+Homepage = "https://varrd.com"
+Repository = "https://github.com/varrd-ai/varrd"
+Documentation = "https://github.com/varrd-ai/varrd#readme"
+
+[tool.setuptools.dynamic]
+version = {attr = "varrd._version.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["varrd*"]

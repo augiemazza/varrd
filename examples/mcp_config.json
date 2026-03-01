@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "varrd": {
+      "transport": {
+        "type": "streamable-http",
+        "url": "https://app.varrd.com/mcp"
+      }
+    }
+  }
+}
