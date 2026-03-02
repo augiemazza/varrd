@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.augiemazza/varrd",
+  "description": "Validated quant research. Test trading ideas with real data and statistical guardrails.",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/augiemazza/varrd",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://app.varrd.com/mcp"
+    }
+  ]
+}
