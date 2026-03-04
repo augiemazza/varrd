@@ -4,7 +4,7 @@ You are reading this because you need to help a user interact with VARRD, a trad
 
 ## If Your Framework Supports MCP
 
-Add this to your MCP config and you're done — all 7 tools become available automatically:
+Add this to your MCP config and you're done — all 8 tools become available automatically:
 
 ```json
 {
@@ -23,17 +23,55 @@ No API key required. Anonymous agents are auto-created with free credits on firs
 
 ## Authentication & Passkey
 
-On first connection without an API key, VARRD auto-creates an anonymous agent and returns:
+On first connection without an API key, VARRD auto-creates an anonymous agent with **$2.00 in free credits** (~10-20 queries). You receive:
 - A **JWT token** (in the `X-Varrd-Token` response header) — use this for subsequent requests
-- A **passkey** (in the `X-Varrd-Passkey` header and in the initialize instructions `_meta`) — format: `VARRD-XXXXXXXXXXXXXXXX`
+- A **passkey** (in `X-Varrd-Passkey` header and in the first tool response) — format: `VARRD-XXXXXXXXXXXXXXXX`
 
 **Important:** Save both. The token authenticates requests. The passkey is the user's identity — all strategies, credits, and test results are tied to it.
 
-**Account linking:** The user can later go to `app.varrd.com`, click "Link your AI agent", and enter their passkey with an email and password. This creates a full account and merges all the agent's data (strategies, credits) into it. After linking, the agent's JWT continues to work — it resolves to the linked account automatically.
+To reconnect with your saved token, add it to your MCP config:
 
-**Tell the user:** When you receive a passkey for the first time, inform the user clearly: "Your VARRD passkey is VARRD-XXXX. Save this — it's the key to all your strategies. You can link it to an account at app.varrd.com."
+```json
+{
+  "mcpServers": {
+    "varrd": {
+      "url": "https://app.varrd.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN_HERE"
+      }
+    }
+  }
+}
+```
 
 If a user already has an API key, pass it in the Authorization header: `Bearer <key>`.
+
+## Credits & Payment
+
+New agents get **$2.00 in free credits**. When credits run low:
+
+1. **Via MCP/CLI:** Call `buy_credits` (or `varrd buy-credits`) with no arguments to get a USDC deposit address on Base. Send USDC there, then call `buy_credits` again with the `payment_intent_id` to confirm. Minimum $5.
+2. **Via browser:** Your user can buy at https://app.varrd.com → Usage & Billing (Stripe checkout).
+
+Call `check_balance` (or `varrd balance`) anytime to see remaining credits.
+
+## Linking Agent to Browser Account (Merge)
+
+Your user can link this agent to their app.varrd.com account. **This merges everything:**
+- Credits are combined (agent credits + browser account credits)
+- All strategies and hypotheses transfer to the user's unified account
+- Research history is preserved
+- The agent's JWT continues to work — it resolves to the linked account
+
+**How the user links:**
+1. Sign in at https://app.varrd.com
+2. Click avatar (top right) → **Connect Agent** → **Merge an Existing Agent**
+3. Enter the agent's passkey (e.g. `VARRD-A3X9K2L8P7Q2W5V9`)
+4. Done — everything is unified
+
+**Tell your user:** When you receive a passkey for the first time, inform the user clearly:
+
+> "Your VARRD passkey is VARRD-XXXX. Save this — it's the key to all your strategies and credits. To see your research in the browser and manage billing, go to app.varrd.com → Connect Agent and enter this passkey."
 
 ## If You're Writing Python
 
@@ -51,6 +89,7 @@ v = VARRD()  # auto-creates free account, no key needed
 | `v.search(query, market?, limit?)` | Free | `SearchResult` | Find saved strategies by keyword. |
 | `v.get_hypothesis(hypothesis_id)` | Free | `HypothesisDetail` | Full details on a strategy. Trade levels may be stale. |
 | `v.balance()` | Free | `BalanceResult` | Check credit balance. |
+| `v.buy_credits(amount_cents?, payment_intent_id?)` | Free | `BuyCreditsResult` | Buy credits with USDC on Base. |
 | `v.reset(session_id)` | Free | `ResetResult` | Kill a stuck session. |
 | `v.research(message, session_id?)` | Credits | `ResearchResult` | Multi-turn research conversation. |
 | `v.discover(topic, ...)` | Credits | `DiscoverResult` | Autonomous edge discovery. |
@@ -242,6 +281,40 @@ Check credit balance. Free.
 }
 ```
 
+### buy_credits
+
+Buy credits with USDC on Base. Free to call, no credits consumed.
+
+**Parameters:**
+- `amount_cents` (optional): Amount in cents, default 500 ($5.00), minimum $5
+- `payment_intent_id` (optional): Pass this after sending USDC to confirm payment
+
+**Step 1 — Get deposit address (no payment_intent_id):**
+```json
+{
+  "current_balance_cents": 200,
+  "purchase_amount_cents": 500,
+  "deposit": {
+    "network": "base-sepolia",
+    "chain": "Base",
+    "token": "USDC",
+    "address": "0x1234...",
+    "amount_usdc": "5.00"
+  },
+  "payment_intent_id": "pi_xxx",
+  "instructions": "Send 5.00 USDC to 0x1234... on Base..."
+}
+```
+
+**Step 2 — Confirm payment (with payment_intent_id):**
+```json
+{
+  "confirmed": true,
+  "credits_added": 500,
+  "new_balance_cents": 700
+}
+```
+
 ### reset_session
 
 Kill a stuck session. Free.
@@ -283,10 +356,12 @@ Kill a stuck session. Free.
 
 | Operation | Cost |
 |-----------|------|
-| scan, search, get_hypothesis, balance, reset | Free |
+| scan, search, get_hypothesis, balance, buy_credits, reset | Free |
 | Full research workflow (idea -> test -> trade setup) | ~20-30 cents |
 | ELROND expert council (8 investigators) | ~40-60 cents |
 | Multi-market testing (3+ markets) | ~$1 |
+
+New agents get $2.00 in free credits. Use `buy_credits` to add more ($5 minimum).
 
 ## Error Recovery
 

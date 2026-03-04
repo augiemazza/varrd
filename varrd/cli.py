@@ -2,6 +2,7 @@
 
 Usage:
     varrd balance
+    varrd buy-credits [--amount 500] [--confirm <payment_intent_id>]
     varrd scan [--market ES] [--only-firing]
     varrd search "momentum strategies" [--limit 10]
     varrd research "When RSI drops below 25 on ES, is there a bounce?"
@@ -124,6 +125,43 @@ def cmd_reset(args):
         _handle_error(e)
 
 
+def cmd_buy_credits(args):
+    """Buy credits with USDC on Base."""
+    try:
+        v = _client(args)
+        pi_id = getattr(args, "payment_intent_id", None)
+        amount = getattr(args, "amount", 500)
+        result = v.buy_credits(amount_cents=amount, payment_intent_id=pi_id)
+
+        if pi_id:
+            # Confirmation response
+            if result.confirmed:
+                print(f"\n  {GREEN}{BOLD}Payment confirmed!{RESET}")
+                if result.credits_added:
+                    print(f"  Credits added: {GREEN}${result.credits_added / 100:.2f}{RESET}")
+                if result.new_balance_cents is not None:
+                    print(f"  New balance:   {GREEN}${result.new_balance_cents / 100:.2f}{RESET}")
+            else:
+                print(f"\n  {YELLOW}Payment not yet confirmed.{RESET}")
+                print(f"  Check that USDC was sent, then try again.")
+        else:
+            # Deposit address response
+            print(f"\n  {BOLD}Buy Credits — ${amount / 100:.2f}{RESET}")
+            print(f"  Current balance: ${result.current_balance_cents / 100:.2f}")
+            if result.deposit:
+                print(f"\n  {BOLD}Send USDC on Base:{RESET}")
+                print(f"  Amount:  {GREEN}{result.deposit.amount_usdc} USDC{RESET}")
+                print(f"  Address: {BOLD}{result.deposit.address}{RESET}")
+                print(f"  Network: {result.deposit.chain}")
+            print(f"\n  After sending, confirm with:")
+            print(f"  {DIM}varrd buy-credits --confirm {result.payment_intent_id}{RESET}")
+            if result.fallback:
+                print(f"\n  {DIM}Or buy at: {result.fallback.web_ui}{RESET}")
+
+    except Exception as e:
+        _handle_error(e)
+
+
 def cmd_research(args):
     """Multi-turn research — follows next_actions automatically."""
     try:
@@ -233,6 +271,7 @@ def _print_welcome():
     search <query>         Find saved strategies
     hypothesis <id>        Get strategy details
     balance                Check credits
+    buy-credits            Buy credits with USDC on Base ($5 min)
     auth status|clear      Manage authentication
 
   {DIM}First time? Just run a research command — VARRD auto-creates
@@ -285,6 +324,11 @@ def main():
     p_hyp = sub.add_parser("hypothesis", help="Get full details for a strategy")
     p_hyp.add_argument("id", help="Hypothesis ID")
 
+    # buy-credits
+    p_buy = sub.add_parser("buy-credits", help="Buy credits with USDC on Base ($5 min)")
+    p_buy.add_argument("--amount", type=int, default=500, help="Amount in cents (default 500 = $5)")
+    p_buy.add_argument("--confirm", dest="payment_intent_id", help="Payment intent ID to confirm")
+
     # reset
     p_reset = sub.add_parser("reset", help="Reset a broken research session")
     p_reset.add_argument("session_id", help="Session ID to reset")
@@ -315,6 +359,7 @@ def main():
 
     cmd_map = {
         "balance": cmd_balance,
+        "buy-credits": cmd_buy_credits,
         "scan": cmd_scan,
         "search": cmd_search,
         "research": cmd_research,

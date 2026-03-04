@@ -178,6 +178,34 @@ class BalanceResult(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Buy Credits
+# ---------------------------------------------------------------------------
+
+class DepositInfo(BaseModel):
+    network: str = ""
+    chain: str = ""
+    token: str = ""
+    address: str = ""
+    amount_usdc: str = ""
+
+class FallbackInfo(BaseModel):
+    stripe_checkout: str = ""
+    web_ui: str = ""
+
+class BuyCreditsResult(BaseModel):
+    current_balance_cents: int = 0
+    purchase_amount_cents: int = 0
+    purchase_amount_usd: str = ""
+    deposit: DepositInfo | None = None
+    payment_intent_id: str = ""
+    instructions: str = ""
+    fallback: FallbackInfo | None = None
+    confirmed: bool = False
+    new_balance_cents: int | None = None
+    credits_added: int | None = None
+
+
+# ---------------------------------------------------------------------------
 # Reset
 # ---------------------------------------------------------------------------
 

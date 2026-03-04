@@ -8,6 +8,8 @@ Usage:
 
     # Free tools
     v.balance()
+    v.buy_credits()                      # get deposit address
+    v.buy_credits(payment_intent_id=pi)  # confirm after sending USDC
     v.scan(only_firing=True)
     v.search("momentum on grains")
     v.get_hypothesis("hyp_abc123")
@@ -31,6 +33,7 @@ import requests
 from varrd.auth import get_token, save_credentials
 from varrd.models import (
     BalanceResult,
+    BuyCreditsResult,
     DiscoverResult,
     HypothesisDetail,
     ResetResult,
@@ -158,6 +161,33 @@ class VARRD:
         """
         data = self._call_tool("get_hypothesis", {"hypothesis_id": hypothesis_id})
         return HypothesisDetail.model_validate(data)
+
+    def buy_credits(
+        self,
+        amount_cents: int = 500,
+        payment_intent_id: str | None = None,
+    ) -> BuyCreditsResult:
+        """Buy credits with USDC on Base. Free, no credits consumed to call.
+
+        Two-step process:
+            1. Call without payment_intent_id to get a USDC deposit address.
+            2. Send USDC to that address on Base network.
+            3. Call again with the payment_intent_id to confirm and receive credits.
+
+        Or buy at https://app.varrd.com (Usage & Billing section).
+
+        Args:
+            amount_cents: Amount in cents (default 500 = $5.00). Minimum $5.
+            payment_intent_id: From step 1. Pass this after sending USDC.
+
+        Returns:
+            BuyCreditsResult with deposit address or confirmation.
+        """
+        args: dict[str, Any] = {"amount_cents": amount_cents}
+        if payment_intent_id:
+            args["payment_intent_id"] = payment_intent_id
+        data = self._call_tool("buy_credits", args)
+        return BuyCreditsResult.model_validate(data)
 
     def reset(self, session_id: str) -> ResetResult:
         """Reset a broken research session. Free, no credits consumed.
@@ -428,13 +458,32 @@ class VARRD:
                 raise VARRDError("Tool returned an error with no content")
             return result
 
-        text = content[0].get("text", "")
-        try:
-            parsed = json.loads(text)
-        except (json.JSONDecodeError, TypeError):
+        # Content may have multiple blocks (e.g. welcome banner + tool data).
+        # Find the first JSON-parseable block; collect plain text separately.
+        parsed = None
+        plain_texts = []
+        for block in content:
+            text = block.get("text", "")
+            try:
+                candidate = json.loads(text)
+                if parsed is None:
+                    parsed = candidate
+            except (json.JSONDecodeError, TypeError):
+                if text.strip():
+                    plain_texts.append(text)
+
+        if parsed is None:
+            # No JSON content — treat as plain text
+            all_text = "\n".join(plain_texts) or content[0].get("text", "")
             if is_error:
-                raise VARRDError(f"Tool error: {text}")
-            return {"text": text}
+                raise VARRDError(f"Tool error: {all_text}")
+            return {"text": all_text}
+
+        # Print any plain text blocks (e.g. welcome banner) to stderr
+        for pt in plain_texts:
+            if pt.startswith("--- VARRD ACCOUNT"):
+                import sys
+                print(pt, file=sys.stderr)
 
         # Check for 402 inside MCP result
         if isinstance(parsed, dict) and (

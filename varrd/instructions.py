@@ -43,7 +43,14 @@ YOUR COMMANDS:
 6. varrd balance
    Check credit balance. Free, no credits consumed.
 
-7. varrd reset <session_id>
+7. varrd buy-credits [--amount 500] [--confirm <payment_intent_id>]
+   Buy credits with USDC on Base ($5 minimum). Two steps:
+     Step 1: varrd buy-credits           -> get USDC deposit address
+     Step 2: Send USDC to that address on Base network
+     Step 3: varrd buy-credits --confirm <payment_intent_id>  -> confirm & receive credits
+   Or buy at https://app.varrd.com (sign in -> Usage & Billing).
+
+8. varrd reset <session_id>
    Reset a broken research session. Free.
 
 IMPORTANT — FRESH vs STALE TRADE LEVELS:
@@ -77,10 +84,28 @@ DATA COVERAGE:
 AUTHENTICATION:
   First call auto-creates an anonymous agent account. Credentials saved
   to ~/.varrd/credentials. Your passkey (VARRD-XXXX...) is printed once
-  on first use — save it to link your research to a browser account at
-  app.varrd.com.
+  on first use — SAVE IT. You need it to reconnect and to link your
+  research to a browser account.
 
+CREDITS & PAYMENT:
   New accounts get $2.00 in free credits (~10-20 queries).
+  When credits run low, use: varrd buy-credits
+  This returns a USDC deposit address on Base. Send USDC there, then
+  confirm with: varrd buy-credits --confirm <payment_intent_id>
+  Or buy at https://app.varrd.com (sign in -> Usage & Billing).
+
+LINKING AGENT TO BROWSER ACCOUNT:
+  Your user can link this agent to their app.varrd.com account.
+  This MERGES everything — credits combine, all strategies transfer,
+  and research history is preserved.
+
+  How to link:
+    1. User signs in at https://app.varrd.com
+    2. Clicks avatar -> Connect Agent -> Merge an Existing Agent
+    3. Enters your passkey (VARRD-XXXX...)
+    4. Done — agent and browser account are now unified.
+
+  Tell your user their passkey when they ask about connecting.
 
 MCP ALTERNATIVE:
   For richer integration, use the MCP (Model Context Protocol) server
