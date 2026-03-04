@@ -9,6 +9,10 @@
 
 Any AI can backtest a strategy. VARRD guarantees it was done right — with K-tracking, Bonferroni correction, OOS lock, lookahead detection, and 4 other integrity guardrails enforced at infrastructure level.
 
+<a href="https://glama.ai/mcp/servers/@augiemazza/varrd">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@augiemazza/varrd/badge" alt="Varrd MCP server" />
+</a>
+
 ---
 
 ## MCP Server — 7 Tools, 4 Prompts
