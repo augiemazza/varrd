@@ -1,8 +1,10 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.augiemazza/varrd",
-  "description": "Validated quant research. Test trading ideas with real data and statistical guardrails.",
-  "version": "1.0.1",
+  "title": "VARRD — Trading Edge Discovery",
+  "description": "Institutional-grade quant research via MCP. 7 tools: research (multi-turn with 15 internal tools), autonomous_research (AI discovers edges), scan (live signals with exact trade levels), search (strategy lookup), get_hypothesis (full stats), check_balance, reset_session. 4 prompts. Covers 15,000+ instruments across futures, equities, crypto. Statistical guardrails enforced at infrastructure level.",
+  "version": "1.0.2",
+  "websiteUrl": "https://www.varrd.com",
   "repository": {
     "url": "https://github.com/augiemazza/varrd",
     "source": "github"
