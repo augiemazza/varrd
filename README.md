@@ -1,7 +1,7 @@
 # VARRD — Trading Edge Discovery
 
 [![PyPI](https://img.shields.io/pypi/v/varrd)](https://pypi.org/project/varrd/)
-[![MCP](https://img.shields.io/badge/MCP-7_tools-blue)](https://app.varrd.com/mcp)
+[![MCP](https://img.shields.io/badge/MCP-8_tools-blue)](https://app.varrd.com/mcp)
 [![Transport](https://img.shields.io/badge/transport-Streamable_HTTP-green)](https://app.varrd.com/mcp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
@@ -15,7 +15,7 @@ Any AI can backtest a strategy. VARRD guarantees it was done right — with K-tr
 
 ---
 
-## MCP Server — 7 Tools, 4 Prompts
+## MCP Server — 8 Tools, 4 Prompts
 
 **Endpoint:** `https://app.varrd.com/mcp`
 **Transport:** Streamable HTTP (2025-03-26 spec)
@@ -46,6 +46,7 @@ Works with **Claude Desktop**, **Claude Code**, **Cursor**, and any MCP-compatib
 | `search` | Free | Find saved strategies by keyword or natural language. Returns matches ranked by relevance with win rate, Sharpe, edge status. |
 | `get_hypothesis` | Free | Full details on any strategy: formula, entry/exit rules, win rate, Sharpe, profit factor, max drawdown, version history. |
 | `check_balance` | Free | View credit balance and available credit packs. |
+| `buy_credits` | Free | Buy credits with USDC on Base. Returns deposit address, then confirm after sending. |
 | `reset_session` | Free | Kill a broken research session and start fresh. |
 
 ### MCP Prompts
@@ -210,7 +211,7 @@ A typical session is 3-5 turns and costs ~$0.25.
 - **Research:** ~$0.20-0.30 per complete workflow
 - **ELROND council** (8 expert investigators): ~$0.40-0.60
 - **Multi-market** (3+ markets): up to ~$1
-- **Free tools:** scan, search, get_hypothesis, check_balance, reset_session
+- **Free tools:** scan, search, get_hypothesis, check_balance, buy_credits, reset_session
 - **Credit packs:** $5 / $20 / $50 via Stripe
 - Credits never expire
 
