@@ -36,8 +36,8 @@ varrd = "varrd.cli:main"
 
 [project.urls]
 Homepage = "https://varrd.com"
-Repository = "https://github.com/varrd-ai/varrd"
-Documentation = "https://github.com/varrd-ai/varrd#readme"
+Repository = "https://github.com/augiemazza/varrd"
+Documentation = "https://github.com/augiemazza/varrd#readme"
 
 [tool.setuptools.dynamic]
 version = {attr = "varrd._version.__version__"}
