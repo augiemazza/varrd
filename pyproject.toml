@@ -25,7 +25,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Office/Business :: Financial :: Investment",
 ]
-keywords = ["trading", "quant", "edge", "backtest", "market-data", "mcp"]
+keywords = ["trading", "quant", "edge", "backtest", "market-data", "mcp", "ai-trading", "algorithmic-trading", "event-study", "quantitative-finance", "futures", "crypto", "ai-agent", "model-context-protocol"]
 dependencies = [
     "requests>=2.28",
     "pydantic>=2.0",
@@ -38,6 +38,9 @@ varrd = "varrd.cli:main"
 Homepage = "https://varrd.com"
 Repository = "https://github.com/augiemazza/varrd"
 Documentation = "https://github.com/augiemazza/varrd#readme"
+"Bug Tracker" = "https://github.com/augiemazza/varrd/issues"
+"MCP Server" = "https://app.varrd.com/mcp"
+Changelog = "https://github.com/augiemazza/varrd/releases"
 
 [tool.setuptools.dynamic]
 version = {attr = "varrd._version.__version__"}
