@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.augiemazza/varrd",
   "title": "VARRD — AI Trading Research & Backtesting",
-  "description": "AI-powered trading research platform. Test any idea on stocks, ETFs, 35 CME futures, and crypto with event studies, backtesting, walk-forward validation, and Bonferroni-corrected significance testing. 8 tools, 4 prompts. Natural language to validated trade setup.",
+  "description": "AI trading research: event studies, backtesting, statistical validation on stocks, futures, crypto.",
   "version": "1.0.3",
   "websiteUrl": "https://www.varrd.com",
   "repository": {
