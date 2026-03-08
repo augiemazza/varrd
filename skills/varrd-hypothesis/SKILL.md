@@ -1,7 +1,10 @@
 ---
 name: varrd-hypothesis
-description: Get full details on a specific saved strategy — formula, metrics, version history
+description: Get full details on a specific saved strategy — formula, metrics, version history. Use when the user wants to inspect a particular hypothesis or strategy in detail.
+version: 1.0.0
 tools: ["Bash"]
+homepage: https://varrd.com
+metadata: {"openclaw": {"requires": {"bins": ["varrd"]}, "emoji": "📋"}}
 ---
 
 # VARRD Hypothesis — Strategy Details

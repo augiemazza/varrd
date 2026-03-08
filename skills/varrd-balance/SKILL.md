@@ -1,7 +1,10 @@
 ---
 name: varrd-balance
-description: Check VARRD credit balance and available credit packs
+description: Check VARRD credit balance and available credit packs. Use when the user asks about credits, billing, or how much research budget remains.
+version: 1.0.0
 tools: ["Bash"]
+homepage: https://varrd.com
+metadata: {"openclaw": {"requires": {"bins": ["varrd"]}, "emoji": "💰"}}
 ---
 
 # VARRD Balance — Check Credits

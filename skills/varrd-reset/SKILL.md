@@ -1,7 +1,10 @@
 ---
 name: varrd-reset
-description: Reset a broken or stuck research session and start fresh
+description: Reset a broken or stuck research session and start fresh. Use when a VARRD session is erroring or stuck.
+version: 1.0.0
 tools: ["Bash"]
+homepage: https://varrd.com
+metadata: {"openclaw": {"requires": {"bins": ["varrd"]}, "emoji": "🔄"}}
 ---
 
 # VARRD Reset — Fix Stuck Sessions

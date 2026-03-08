@@ -1,7 +1,10 @@
 ---
 name: varrd-search
-description: Find saved strategies by keyword or natural language query
+description: Find saved strategies by keyword or natural language query. Use when the user wants to look up or browse previously validated trading strategies.
+version: 1.0.0
 tools: ["Bash"]
+homepage: https://varrd.com
+metadata: {"openclaw": {"requires": {"bins": ["varrd"]}, "emoji": "🔎"}}
 ---
 
 # VARRD Search — Find Saved Strategies

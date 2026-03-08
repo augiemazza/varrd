@@ -1,7 +1,10 @@
 ---
 name: varrd-research
-description: The core VARRD research tool — talk to a state-of-the-art quant AI to research, chart, test, optimize, and trade any market idea
+description: The core VARRD research tool — talk to a state-of-the-art quant AI to research, chart, test, optimize, and trade any market idea. Use when the user wants to test a trading hypothesis, find edges, or validate a strategy with real market data.
+version: 1.0.0
 tools: ["Bash"]
+homepage: https://varrd.com
+metadata: {"openclaw": {"requires": {"bins": ["varrd"]}, "emoji": "📊"}}
 ---
 
 # VARRD Research — The Main Event

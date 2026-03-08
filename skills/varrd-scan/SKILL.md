@@ -1,7 +1,10 @@
 ---
 name: varrd-scan
-description: Scan saved strategies against live market data — see what's firing right now with exact trade levels
+description: Scan saved strategies against live market data — see what's firing right now with exact trade levels. Use when the user asks what signals are active or wants current entry/stop/target prices.
+version: 1.0.0
 tools: ["Bash"]
+homepage: https://varrd.com
+metadata: {"openclaw": {"requires": {"bins": ["varrd"]}, "emoji": "📡"}}
 ---
 
 # VARRD Scan — What's Firing Right Now

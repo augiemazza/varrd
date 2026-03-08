@@ -1,7 +1,10 @@
 ---
 name: varrd-discover
-description: Autonomous edge discovery — VARRD generates, tests, and validates trading hypotheses hands-free
+description: Autonomous edge discovery — VARRD generates, tests, and validates trading hypotheses hands-free. Use when the user wants the AI to find trading edges on its own given a topic or market.
+version: 1.0.0
 tools: ["Bash"]
+homepage: https://varrd.com
+metadata: {"openclaw": {"requires": {"bins": ["varrd"]}, "emoji": "🔍"}}
 ---
 
 # VARRD Discover — Autonomous Edge Discovery
