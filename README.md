@@ -151,6 +151,16 @@ Add to your MCP config — no API key needed:
 
 Then just ask: *"Is there a pattern when gold spikes after a Fed rate decision?"*
 
+### OpenBB Workspace
+
+VARRD plugs directly into [OpenBB Workspace](https://openbb.co) as an MCP server:
+
+1. Open Workspace → click "+" in the MCP server panel
+2. Enter `https://app.varrd.com/mcp`
+3. VARRD's tools appear in your Copilot — research ideas, scan signals, search strategies
+
+OpenBB gives you the data. VARRD tells you if your idea has an edge.
+
 ### CrewAI
 
 ```python
