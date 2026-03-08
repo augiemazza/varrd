@@ -161,6 +161,33 @@ VARRD plugs directly into [OpenBB Workspace](https://openbb.co) as an MCP server
 
 OpenBB gives you the data. VARRD tells you if your idea has an edge.
 
+### Trading bots (Freqtrade, Jesse, Hummingbot, OctoBot, NautilusTrader)
+
+VARRD validates that your strategy has a real edge **before** you deploy it. Works with any bot:
+
+```python
+from varrd import VARRD
+from varrd.freqtrade import generate_strategy
+
+v = VARRD()
+result = v.discover("RSI oversold reversal on BTC")
+
+if result.has_edge:
+    hyp = v.get_hypothesis(result.hypothesis_id)
+    strategy_code, config = generate_strategy(hyp)
+    # Drop into your bot's strategies/ folder and run it
+```
+
+| Bot | How VARRD plugs in |
+|-----|--------------------|
+| [Freqtrade](https://github.com/freqtrade/freqtrade) | `varrd.freqtrade` generates ready-to-run IStrategy files with ATR stops |
+| [Jesse](https://github.com/jesse-ai/jesse) | Validate signal edge, then code your Jesse strategy with confidence |
+| [Hummingbot](https://github.com/hummingbot/hummingbot) | Validate directional signals before deploying to market-making |
+| [OctoBot](https://github.com/Drakkar-Software/OctoBot) | Pre-validate any tentacle strategy through VARRD's MCP server |
+| [NautilusTrader](https://github.com/nautechsystems/nautilus_trader) | Statistical edge validation before live deployment |
+
+The pattern: validate first, deploy second. Most strategies don't survive statistical testing — better to find out for $0.25 than $25,000.
+
 ### CrewAI
 
 ```python
