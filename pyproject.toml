@@ -25,7 +25,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Office/Business :: Financial :: Investment",
 ]
-keywords = ["trading", "quant", "edge", "backtest", "market-data", "mcp", "ai-trading", "algorithmic-trading", "event-study", "quantitative-finance", "futures", "crypto", "ai-agent", "model-context-protocol", "freqtrade"]
+keywords = ["trading", "quant", "edge", "backtest", "market-data", "mcp", "ai-trading", "algorithmic-trading", "event-study", "quantitative-finance", "futures", "crypto", "ai-agent", "model-context-protocol", "freqtrade", "jesse"]
 dependencies = [
     "requests>=2.28",
     "pydantic>=2.0",
@@ -51,3 +51,4 @@ include = ["varrd*"]
 
 [tool.setuptools.package-data]
 "varrd.freqtrade.templates" = ["*.py"]
+"varrd.jesse.templates" = ["*.py"]

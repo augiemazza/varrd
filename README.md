@@ -181,7 +181,7 @@ if result.has_edge:
 | Bot | How VARRD plugs in |
 |-----|--------------------|
 | [Freqtrade](https://github.com/freqtrade/freqtrade) | `varrd.freqtrade` generates ready-to-run IStrategy files with ATR stops |
-| [Jesse](https://github.com/jesse-ai/jesse) | Validate signal edge, then code your Jesse strategy with confidence |
+| [Jesse](https://github.com/jesse-ai/jesse) | `varrd.jesse` generates ready-to-run Strategy files with ATR stops |
 | [Hummingbot](https://github.com/hummingbot/hummingbot) | Validate directional signals before deploying to market-making |
 | [OctoBot](https://github.com/Drakkar-Software/OctoBot) | Pre-validate any tentacle strategy through VARRD's MCP server |
 | [NautilusTrader](https://github.com/nautechsystems/nautilus_trader) | Statistical edge validation before live deployment |
