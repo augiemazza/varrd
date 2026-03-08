@@ -58,25 +58,27 @@ Both are valuable results.
 
 ---
 
-## How it works
+## Why can't I just ask Claude / ChatGPT to do this?
 
-```
-Your idea (plain English)
-     ↓
-  Load real market data — stocks, futures, crypto
-     ↓
-  Chart the pattern — see actual signals on price history
-     ↓
-  You approve — sanity check before spending statistical power
-     ↓
-  Statistical test — event study with proper controls
-     ↓
-  Verdict:  STRONG EDGE / MARGINAL / NO EDGE
-     ↓
-  Trade setup — exact entry, stop-loss, take-profit in dollars
-```
+Because testing trading ideas properly is **really hard to get right**, and there are a dozen ways to accidentally produce fake results that look great but lose money in production.
 
-A typical session is 3–5 turns and costs ~$0.25.
+An LLM by itself will happily write you a backtest, show you a beautiful equity curve, and tell you it has a 70% win rate. The problem: none of it is real. The LLM doesn't have market data, doesn't have a testing environment, and has no guardrails preventing it from overfitting, cherry-picking, or just making numbers up.
+
+Even if you give an LLM real data (like in Claude Code or Cursor), it still can't do this properly. Here's why:
+
+**What can go wrong when testing trading ideas — and what VARRD handles:**
+
+- **Overfitting** — Tweaking a strategy until it looks good on past data. VARRD holds out unseen data and tests on it once. You can't re-run it after peeking at results.
+- **Cherry-picking results** — Testing 50 variations and only showing the winner. VARRD tracks every test you run and raises the significance bar automatically the more you test.
+- **p-hacking** — Massaging the numbers until you get a "significant" result. VARRD corrects for multiple comparisons so a lucky result doesn't pass as real.
+- **Lookahead bias** — Accidentally using future data in your formula. VARRD runs in a sandboxed kernel that makes this structurally impossible.
+- **Wrong test type** — Some ideas need forward-return analysis, others need full simulations with stops and targets. VARRD has a team of specialized agents that determine the right test for each question.
+- **Cross-market contamination** — Testing on one market but the signal actually came from another. VARRD isolates and aligns data across markets and timeframes.
+- **Fabricated statistics** — LLMs will invent numbers to sound confident. In VARRD, every stat comes from a deterministic calculation. The AI interprets results, it never generates them.
+- **ATR-based position sizing** — Real edges need real risk management. VARRD calculates stop losses and take profits based on actual volatility, not arbitrary percentages.
+- **Showing what's happening right now** — A validated edge is useless if you can't see when it's firing. VARRD scans live data and tells you exactly when your signals are active, with fresh entry and exit levels.
+
+**An LLM is a brain without a lab.** It can reason about trading ideas, but it can't test them in a controlled environment. VARRD is the lab — purpose-built infrastructure where every test is tracked, every result is verified, and the dozen ways to accidentally cheat are blocked at the system level, not the prompt level.
 
 ---
 
