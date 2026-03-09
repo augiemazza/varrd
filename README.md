@@ -5,7 +5,7 @@
 [![Transport](https://img.shields.io/badge/transport-Streamable_HTTP-green)](https://app.varrd.com/mcp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
-**Turn any trading idea into a statistically validated edge — or find out it doesn't work for $0.25.**
+**Turn any trading idea into a statistically validated edge in about 3 minutes.**
 
 ```bash
 pip install varrd
