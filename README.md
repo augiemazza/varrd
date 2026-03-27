@@ -1,7 +1,7 @@
 # VARRD
 
 [![PyPI](https://img.shields.io/pypi/v/varrd)](https://pypi.org/project/varrd/)
-[![MCP](https://img.shields.io/badge/MCP-8_tools-blue)](https://app.varrd.com/mcp)
+[![MCP](https://img.shields.io/badge/MCP-9_tools-blue)](https://app.varrd.com/mcp)
 [![Transport](https://img.shields.io/badge/transport-Streamable_HTTP-green)](https://app.varrd.com/mcp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
 
@@ -107,6 +107,14 @@ for s in signals.results:
 ```
 
 ```python
+# Morning briefing — today's news connected to your specific edges
+b = v.briefing()
+print(b.news)
+# "**ES selling accelerates into the open** Three consecutive lower highs..."
+# "↳ Your ES mean-reversion setups are live territory here..."
+```
+
+```python
 # Let VARRD discover edges autonomously
 result = v.discover("mean reversion on futures")
 print(result.edge_verdict, result.market, result.win_rate)
@@ -120,6 +128,9 @@ varrd research "When wheat drops 3 days in a row, is there a snap-back?"
 
 # What's firing right now?
 varrd scan --only-firing
+
+# Personalized market briefing — news filtered to your edge library
+varrd briefing
 
 # Search saved strategies
 varrd search "momentum on grains"

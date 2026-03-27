@@ -272,6 +272,20 @@ class VARRD:
         data = self._call_tool("autonomous_research", args)
         return DiscoverResult.model_validate(data)
 
+    def briefing(self) -> "BriefingResult":
+        """Get a personalized market news briefing based on your edge library.
+
+        Profiles your validated strategies, searches today's news for the
+        instruments you trade, and writes a digest connecting each headline
+        to your specific book. Requires 5+ strong edges. Costs credits.
+
+        Returns:
+            BriefingResult with profile, news text, and metadata.
+        """
+        from varrd.models import BriefingResult
+        data = self._call_tool("get_briefed", {})
+        return BriefingResult.model_validate(data)
+
     # ------------------------------------------------------------------
     # Internal — MCP transport
     # ------------------------------------------------------------------

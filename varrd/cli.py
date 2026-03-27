@@ -27,6 +27,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
 from varrd.client import VARRD, AuthError, PaymentRequired, RateLimited, VARRDError
 from varrd.display import (
     display_balance,
+    display_briefing,
     display_discover,
     display_hypothesis,
     display_research,
@@ -223,6 +224,15 @@ def cmd_discover(args):
         _handle_error(e)
 
 
+def cmd_briefing(args):
+    try:
+        v = _client(args)
+        result = v.briefing()
+        display_briefing(result)
+    except Exception as e:
+        _handle_error(e)
+
+
 def cmd_auth(args):
     from varrd.auth import get_credentials, clear_credentials, CREDENTIALS_FILE
 
@@ -263,11 +273,13 @@ def _print_welcome():
     varrd research "When RSI drops below 25 on ES, is there a bounce?"
     varrd discover "mean reversion on futures"
     varrd scan --only-firing
+    varrd briefing
 
   {BOLD}Commands:{RESET}
     research <idea>        Multi-turn research (auto-follows workflow)
     discover <topic>       Autonomous edge discovery
     scan                   What's firing right now
+    briefing               Personalized market news (uses your edge library)
     search <query>         Find saved strategies
     hypothesis <id>        Get strategy details
     balance                Check credits
@@ -339,6 +351,9 @@ def main():
     auth_sub.add_parser("status", help="Show current auth status")
     auth_sub.add_parser("clear", help="Clear stored credentials")
 
+    # briefing
+    sub.add_parser("briefing", help="Get personalized market news briefing")
+
     # agent-instructions
     sub.add_parser("agent-instructions", help="Print instructions for AI agents using this CLI")
 
@@ -359,6 +374,7 @@ def main():
 
     cmd_map = {
         "balance": cmd_balance,
+        "briefing": cmd_briefing,
         "buy-credits": cmd_buy_credits,
         "scan": cmd_scan,
         "search": cmd_search,

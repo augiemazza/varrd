@@ -212,3 +212,14 @@ class BuyCreditsResult(BaseModel):
 class ResetResult(BaseModel):
     reset: bool = False
     message: str = ""
+
+
+# ---------------------------------------------------------------------------
+# Get Briefed
+# ---------------------------------------------------------------------------
+
+class BriefingResult(BaseModel):
+    profile: str = ""
+    news: str = ""
+    strong_count: int = 0
+    generated_at: str = ""

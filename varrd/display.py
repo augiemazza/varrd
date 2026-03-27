@@ -7,6 +7,7 @@ import sys
 
 from varrd.models import (
     BalanceResult,
+    BriefingResult,
     DiscoverResult,
     HypothesisDetail,
     ResearchResult,
@@ -261,3 +262,27 @@ def display_reset(result: ResetResult):
         print(f"  {GREEN}Session reset.{RESET} {result.message}")
     else:
         print(f"  {RED}Reset failed.{RESET} {result.message}")
+
+
+def display_briefing(result: BriefingResult):
+    date_str = result.generated_at[:10] if result.generated_at else ""
+    print(f"\n  {BOLD}Market Briefing{RESET}  {DIM}{date_str} · {result.strong_count} strong edges{RESET}\n")
+
+    # Render the news text — parse **Headline** Body and ↳ lines
+    import re
+    paragraphs = result.news.split("\n\n")
+    for para in paragraphs:
+        para = para.strip()
+        if not para:
+            continue
+        if para.startswith("↳"):
+            # Edge relevance line
+            print(f"  {DIM}{_safe(para)}{RESET}\n")
+        else:
+            # Bold inline headline: **Headline** rest of body
+            rendered = re.sub(
+                r"\*\*(.+?)\*\*",
+                lambda m: f"{BOLD}{m.group(1)}{RESET}",
+                para,
+            )
+            print(f"  {_safe(rendered)}\n")
