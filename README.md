@@ -4,6 +4,7 @@
 [![MCP](https://img.shields.io/badge/MCP-9_tools-blue)](https://app.varrd.com/mcp)
 [![Transport](https://img.shields.io/badge/transport-Streamable_HTTP-green)](https://app.varrd.com/mcp)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
+[![MCP Badge](https://lobehub.com/badge/mcp/augiemazza-varrd)](https://lobehub.com/mcp/augiemazza-varrd)
 
 **Turn any trading idea into a statistically validated edge in about 3 minutes.**
 
