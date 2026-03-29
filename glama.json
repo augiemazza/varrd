@@ -5,11 +5,13 @@
   "homepage": "https://www.varrd.com",
   "license": "MIT",
   "repository": "https://github.com/augiemazza/varrd",
-  "installation": {
-    "type": "hosted",
-    "url": "https://app.varrd.com/mcp"
-  },
   "maintainers": [
     "augiemazza"
+  ],
+  "remotes": [
+    {
+      "transportType": "http",
+      "url": "https://app.varrd.com/mcp"
+    }
   ]
 }
