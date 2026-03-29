@@ -1,0 +1,8 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server/v1.json",
+  "name": "varrd",
+  "description": "AI trading research: turn any trading idea into a statistically validated edge with real market data, event studies, backtesting, and SL/TP optimization. Covers stocks, futures, and crypto.",
+  "homepage": "https://www.varrd.com",
+  "license": "MIT",
+  "repository": "https://github.com/augiemazza/varrd"
+}
