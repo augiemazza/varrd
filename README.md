@@ -1,4 +1,5 @@
 # VARRD
+<!-- mcp-name: io.github.augiemazza/varrd -->
 
 [![PyPI](https://img.shields.io/pypi/v/varrd)](https://pypi.org/project/varrd/)
 [![MCP](https://img.shields.io/badge/MCP-9_tools-blue)](https://app.varrd.com/mcp)
@@ -146,7 +147,7 @@ varrd discover "mean reversion on futures"
 
 ### Claude Desktop / Claude Code / Cursor
 
-Add to your MCP config — no API key needed:
+**Option 1 — Direct HTTP (Claude Code, Cursor, OpenBB):**
 
 ```json
 {
@@ -161,7 +162,20 @@ Add to your MCP config — no API key needed:
 }
 ```
 
-Then just ask: *"Is there a pattern when gold spikes after a Fed rate decision?"*
+**Option 2 — via mcp-remote (Claude Desktop, any stdio client):**
+
+```json
+{
+  "mcpServers": {
+    "varrd": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://app.varrd.com/mcp"]
+    }
+  }
+}
+```
+
+No API key needed. Then just ask: *"Is there a pattern when gold spikes after a Fed rate decision?"*
 
 ### OpenBB Workspace
 

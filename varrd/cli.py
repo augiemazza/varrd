@@ -296,6 +296,67 @@ def _print_welcome():
 """)
 
 
+def cmd_mcp(args):
+    """MCP stdio server — proxies JSON-RPC over stdin/stdout to app.varrd.com/mcp.
+
+    Used by Claude Desktop, LobeHub, Cursor, and any MCP client that launches
+    a local process. Each newline-delimited JSON-RPC message on stdin is
+    forwarded to the remote HTTP endpoint; the response is written to stdout.
+    """
+    import json
+    import requests
+
+    base_url = getattr(args, "url", None) or "https://app.varrd.com"
+    mcp_url = f"{base_url}/mcp"
+
+    session = requests.Session()
+    session.headers.update({
+        "Content-Type": "application/json",
+        "Accept": "application/json, text/event-stream",
+    })
+
+    # Attach agent key if available
+    try:
+        from varrd.auth import get_credentials
+        creds = get_credentials()
+        if creds and creds.get("api_key"):
+            session.headers["X-Agent-Key"] = creds["api_key"]
+    except Exception:
+        pass
+
+    for raw in sys.stdin:
+        raw = raw.strip()
+        if not raw:
+            continue
+        try:
+            msg = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+
+        try:
+            resp = session.post(mcp_url, json=msg, timeout=30)
+            ct = resp.headers.get("Content-Type", "")
+            if "text/event-stream" in ct:
+                # SSE — collect all data events, return the last result
+                result = None
+                for line in resp.text.splitlines():
+                    if line.startswith("data: "):
+                        try:
+                            result = json.loads(line[6:])
+                        except Exception:
+                            pass
+                if result:
+                    sys.stdout.write(json.dumps(result) + "\n")
+                    sys.stdout.flush()
+            else:
+                sys.stdout.write(json.dumps(resp.json()) + "\n")
+                sys.stdout.flush()
+        except Exception as e:
+            err = {"jsonrpc": "2.0", "id": msg.get("id"), "error": {"code": -32603, "message": str(e)}}
+            sys.stdout.write(json.dumps(err) + "\n")
+            sys.stdout.flush()
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog="varrd",
@@ -357,9 +418,17 @@ def main():
     # agent-instructions
     sub.add_parser("agent-instructions", help="Print instructions for AI agents using this CLI")
 
+    # mcp — stdio proxy for Claude Desktop, LobeHub, Cursor, etc.
+    sub.add_parser("mcp", help="Start as MCP stdio server (proxies to app.varrd.com/mcp)")
+
     args = parser.parse_args()
 
     if not args.command:
+        # If stdin is a pipe (not a terminal), act as MCP stdio server.
+        # This lets LobeHub/Claude Desktop use `command: "varrd"` directly.
+        if not sys.stdin.isatty():
+            cmd_mcp(args)
+            return
         _print_welcome()
         sys.exit(0)
 
@@ -384,6 +453,7 @@ def main():
         "reset": cmd_reset,
         "auth": cmd_auth,
         "agent-instructions": cmd_agent_instructions,
+        "mcp": cmd_mcp,
     }
 
     cmd_map[args.command](args)
