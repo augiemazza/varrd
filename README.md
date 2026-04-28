@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/augiemazza-varrd-badge.png)](https://mseep.ai/app/augiemazza-varrd)
+
 # VARRD
 <!-- mcp-name: io.github.augiemazza/varrd -->
 
