@@ -9,6 +9,7 @@ from varrd.models import (
     BalanceResult,
     BriefingResult,
     DiscoverResult,
+    EdgesResult,
     HypothesisDetail,
     ResearchResult,
     ScanResult,
@@ -255,6 +256,14 @@ def display_discover(result: DiscoverResult):
 
     if result.text:
         print(f"\n  {DIM}{_safe(result.text[:500])}{RESET}")
+
+
+def display_edges(result: EdgesResult):
+    """Display edge library results. Server returns pre-formatted text."""
+    if result.text:
+        print(f"\n{result.text}\n")
+    elif not result.edges:
+        print(f"  {DIM}No edges found.{RESET}")
 
 
 def display_reset(result: ResetResult):

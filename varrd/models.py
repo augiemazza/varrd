@@ -206,6 +206,44 @@ class BuyCreditsResult(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Edges (varrd_edges tool — VARRD's validated edge library)
+# ---------------------------------------------------------------------------
+
+class EdgeItem(BaseModel):
+    id: str
+    market: str = ""
+    timeframe: str = "daily"
+    status: str = ""
+    name: str = ""
+    direction: str = ""
+    n_signals: int | None = None
+    win_rate: float | None = None
+    ev_per_trade: float | None = None
+    sl_atr: float | None = None
+    tp_atr: float | None = None
+    best_horizon: Any = None
+    test_type: str = ""
+    last_fired: str | None = None
+    firing_markets: list[str] = Field(default_factory=list)
+    entry_price: float | None = None
+    stop_price: float | None = None
+    target_price: float | None = None
+    formula: str = ""
+    setup_code: str = ""
+    setup_explanation: str = ""
+    beats_market: bool | None = None
+    sharpe: float | None = None
+    profit_factor: float | None = None
+    performance: dict[str, Any] = Field(default_factory=dict)
+
+class EdgesResult(BaseModel):
+    """Result from varrd_edges — can be text (depth 0/1) or structured (depth 2 JSON)."""
+    text: str = ""
+    edges: list[EdgeItem] = Field(default_factory=list)
+    depth: int = 0
+
+
+# ---------------------------------------------------------------------------
 # Reset
 # ---------------------------------------------------------------------------
 

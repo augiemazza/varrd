@@ -8,9 +8,11 @@ Usage:
 
     # Free tools
     v.balance()
-    v.buy_credits()                      # get deposit address
-    v.buy_credits(payment_intent_id=pi)  # confirm after sending USDC
-    v.scan(only_firing=True)
+    v.edges()                            # what's firing (free)
+    v.edges(depth=1)                     # stats + trade levels ($0.50)
+    v.edges(depth=2, edge_id="abc123")   # full methodology ($1)
+    v.buy_credits()                      # Stripe Checkout link (card)
+    v.buy_credits(payment_method="crypto")  # USDC on Base (autonomous)
     v.search("momentum on grains")
     v.get_hypothesis("hyp_abc123")
 
@@ -35,6 +37,7 @@ from varrd.models import (
     BalanceResult,
     BuyCreditsResult,
     DiscoverResult,
+    EdgesResult,
     HypothesisDetail,
     ResetResult,
     ResearchResult,
@@ -98,9 +101,54 @@ class VARRD:
     # ------------------------------------------------------------------
 
     def balance(self) -> BalanceResult:
-        """Check credit balance. Free, no credits consumed."""
+        """Check credit balance. Free, no credits consumed.
+
+        Also auto-detects completed payments — call after your user pays
+        via a checkout link to confirm credits were added.
+        """
         data = self._call_tool("check_balance", {})
         return BalanceResult.model_validate(data)
+
+    def edges(
+        self,
+        depth: int = 0,
+        edge_id: str | None = None,
+        market: str | None = None,
+        status: str | None = None,
+        section: str | None = None,
+    ) -> EdgesResult:
+        """Browse VARRD's validated edge library.
+
+        Three tiers:
+            depth=0 (free):  Markets and status only — see what's firing.
+            depth=1 ($0.50): Direction, stats, trade levels for all edges.
+            depth=2 ($1/edge or $5/all): Full methodology, formula,
+                performance analytics. Use section= to drill into
+                setup_code, horizons, analytics, occurrences, or view.
+
+        Args:
+            depth: 0 (free), 1 ($0.50), or 2 ($1/edge, $5/all).
+            edge_id: Specific edge ID for detail. Omit for all edges.
+            market: Filter by market symbol (e.g. 'ES', 'GC').
+            status: Filter: 'firing', 'pending', 'active'.
+            section: Drill-down after depth=2 purchase (free):
+                setup_code, horizons, analytics, occurrences, view.
+
+        Returns:
+            EdgesResult with text (depth 0/1) or structured data (depth 2).
+        """
+        args: dict[str, Any] = {"depth": depth}
+        if edge_id:
+            args["edge_id"] = edge_id
+        if market:
+            args["market"] = market
+        if status:
+            args["status"] = status
+        if section:
+            args["section"] = section
+        data = self._call_tool("varrd_edges", args)
+        text = data.get("text", "") if isinstance(data, dict) else str(data)
+        return EdgesResult(text=text, depth=depth)
 
     def scan(
         self,

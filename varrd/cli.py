@@ -29,6 +29,7 @@ from varrd.display import (
     display_balance,
     display_briefing,
     display_discover,
+    display_edges,
     display_hypothesis,
     display_research,
     display_reset,
@@ -79,6 +80,22 @@ def cmd_balance(args):
         v = _client(args)
         result = v.balance()
         display_balance(result)
+    except Exception as e:
+        _handle_error(e)
+
+
+def cmd_edges(args):
+    """Browse VARRD's validated edge library."""
+    try:
+        v = _client(args)
+        result = v.edges(
+            depth=getattr(args, "depth", 0),
+            edge_id=getattr(args, "edge_id", None),
+            market=getattr(args, "market", None),
+            status=getattr(args, "status", None),
+            section=getattr(args, "section", None),
+        )
+        display_edges(result)
     except Exception as e:
         _handle_error(e)
 
@@ -270,20 +287,22 @@ def _print_welcome():
   {BOLD}VARRD{RESET} — Trading edge discovery
 
   {BOLD}Quick start:{RESET}
-    varrd research "When RSI drops below 25 on ES, is there a bounce?"
-    varrd discover "mean reversion on futures"
-    varrd scan --only-firing
-    varrd briefing
+    varrd edges                         What's firing right now (free)
+    varrd edges --depth 1               Stats + trade levels ($0.50)
+    varrd research "RSI < 25 on ES"     Test your own trading idea
+    varrd discover "mean reversion"     Let VARRD find edges for you
+    varrd briefing                      Personalized market news
 
   {BOLD}Commands:{RESET}
+    edges                  Browse VARRD's validated edge library
     research <idea>        Multi-turn research (auto-follows workflow)
     discover <topic>       Autonomous edge discovery
-    scan                   What's firing right now
+    scan                   Scan your saved strategies
     briefing               Personalized market news (uses your edge library)
     search <query>         Find saved strategies
     hypothesis <id>        Get strategy details
     balance                Check credits
-    buy-credits            Buy credits with USDC on Base ($5 min)
+    buy-credits            Buy credits ($5 min, card or crypto)
     auth status|clear      Manage authentication
 
   {DIM}First time? Just run a research command — VARRD auto-creates
@@ -370,6 +389,16 @@ def main():
     # balance
     sub.add_parser("balance", help="Check credit balance")
 
+    # edges
+    p_edges = sub.add_parser("edges", help="Browse VARRD's validated edge library")
+    p_edges.add_argument("--depth", type=int, default=0, choices=[0, 1, 2],
+                         help="0=free (markets), 1=$0.50 (stats), 2=$1/edge or $5/all (full)")
+    p_edges.add_argument("--edge-id", help="Specific edge ID for detail")
+    p_edges.add_argument("--market", help="Filter by market symbol")
+    p_edges.add_argument("--status", choices=["firing", "pending", "active"], help="Filter by status")
+    p_edges.add_argument("--section", choices=["setup_code", "horizons", "analytics", "occurrences", "view"],
+                         help="Drill into section (free after depth=2 purchase)")
+
     # scan
     p_scan = sub.add_parser("scan", help="Scan strategies against live market data")
     p_scan.add_argument("--market", help="Filter by market symbol")
@@ -445,6 +474,7 @@ def main():
         "balance": cmd_balance,
         "briefing": cmd_briefing,
         "buy-credits": cmd_buy_credits,
+        "edges": cmd_edges,
         "scan": cmd_scan,
         "search": cmd_search,
         "research": cmd_research,
