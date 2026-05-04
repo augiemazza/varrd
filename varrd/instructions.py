@@ -3,23 +3,34 @@
 AGENT_INSTRUCTIONS = """\
 VARRD CLI — Instructions for AI Agents
 
-You are using VARRD via the CLI (command-line interface). VARRD is an
-institutional-grade quant research system that turns any trading idea
-into statistically validated results with exact trade levels.
+You are using VARRD, the governed live edge layer. VARRD maintains a
+library of statistically validated trading edges running 24/7 against
+live market data — and lets you test your own ideas with institutional-
+grade methodology.
 
 YOUR COMMANDS:
 
-1. varrd research "<idea>"
+1. varrd edges [--depth 0|1|2] [--edge-id ID] [--market ES] [--status firing]
+               [--direction LONG|SHORT] [--timeframe daily] [--asset-class futures]
+   Browse VARRD's validated edge library. The main command.
+     depth=0 (free):  Which markets have edges firing right now
+     depth=1 ($0.50): 15-min snapshot — direction, win rate, EV, stops, entry date
+     depth=2 ($1):    Full audit trail — methodology, performance, formula, interactive view
+
+   Filters: market, status (firing/pending/active), direction (LONG/SHORT),
+   timeframe (60min/120min/240min/360min/480min/daily/weekly),
+   asset_class (futures/equities/crypto)
+
+2. varrd research "<idea>"
    Multi-turn research conversation. VARRD auto-follows the workflow:
-   idea -> chart -> test -> trade setup. Usually completes in 3-5 turns
-   automatically. The CLI handles next_actions for you.
+   idea -> chart -> test -> trade setup. Usually completes in 3-5 turns.
 
    Examples:
      varrd research "When RSI drops below 25 on ES, is there a bounce?"
+     varrd research "What happens to gold when silver ETFs make 100-day new lows?"
      varrd research "Use the ELROND council on NQ"
-     varrd research "When wheat drops 3 consecutive days after monthly highs, is there a snap-back?"
 
-2. varrd discover "<topic>"
+3. varrd discover "<topic>"
    Fully autonomous. VARRD generates a hypothesis, loads data, charts,
    tests, and gets trade setup if an edge is found. One command, one result.
 
@@ -27,89 +38,75 @@ YOUR COMMANDS:
      varrd discover "momentum on grains"
      varrd discover "mean reversion on crypto" --mode explore
 
-3. varrd scan [--market ES] [--only-firing]
-   What's firing RIGHT NOW. Scans all saved strategies against live data.
-   Returns exact dollar entry/stop/target prices. Use --only-firing for
-   actionable signals only.
+4. varrd briefing
+   Personalized market news briefing based on your validated edge library.
+   Connects today's headlines to your specific positions and edges.
+   Requires 5+ strong edges in your library.
 
-4. varrd search "<query>" [--market ES] [--limit 10]
-   Find saved strategies by keyword or natural language.
-   Examples: "RSI oversold", "momentum strategies", "corn seasonal"
+5. varrd search "<query>" [--market ES] [--limit 10]
+   Find your saved strategies by keyword or natural language.
 
-5. varrd hypothesis <id>
-   Full details for a specific strategy. Formula, metrics, version history.
-   NOTE: Trade levels may be STALE. Use scan for fresh levels.
+6. varrd hypothesis <id>
+   Full details for one of your own strategies.
 
-6. varrd balance
+7. varrd balance
    Check credit balance. Free, no credits consumed.
+   Also auto-detects completed payments — call after paying to confirm.
 
-7. varrd buy-credits [--amount 500] [--confirm <payment_intent_id>]
-   Buy credits with USDC on Base ($5 minimum). Two steps:
-     Step 1: varrd buy-credits           -> get USDC deposit address
-     Step 2: Send USDC to that address on Base network
-     Step 3: varrd buy-credits --confirm <payment_intent_id>  -> confirm & receive credits
-   Or buy at https://app.varrd.com (sign in -> Usage & Billing).
+8. varrd buy-credits [--amount 500]
+   Buy credits ($5 minimum). Returns a Stripe Checkout link for card payment.
+   After your user pays, call varrd balance to confirm credits were added.
+   Pass --confirm <payment_intent_id> for USDC on Base (crypto, autonomous).
 
-8. varrd reset <session_id>
+9. varrd reset <session_id>
    Reset a broken research session. Free.
 
-IMPORTANT — FRESH vs STALE TRADE LEVELS:
-- scan returns FRESH levels (computed against live data right now)
-- hypothesis returns STORED stats (may be outdated)
-- research auto-generates fresh trade setup when edge is found
+EDGE STATUSES:
+- FIRING:  Signal confirmed. Enter at next bar open. Actionable now.
+- PENDING: Bar hasn't closed yet. Signal may fire when it does. Don't act.
+- ACTIVE:  Already in a trade from a previous signal. Entry already happened.
+
+TWO TEST TYPES:
+- EVENT STUDY: Statistical forward returns over N bars. Entry at next bar open,
+  exit after N bars at close. The edge is probabilistic.
+- BACKTEST: Simulated trading with stop-loss and take-profit. Entry at next bar
+  open, exit when SL/TP hits or max hold.
 
 HOW TO BE EFFICIENT:
-- What's actionable right now? -> varrd scan --only-firing
-- Find strategies by topic -> varrd search "query"
-- Understand a strategy fully -> varrd hypothesis <id>
-- Create NEW edges -> varrd research "your idea"
-- Broad discovery -> varrd research "Use the ELROND council on ES"
+- What's firing right now? -> varrd edges
+- Stats + trade levels? -> varrd edges --depth 1
+- Full methodology on one edge? -> varrd edges --depth 2 --edge-id <id>
+- Only shorts? -> varrd edges --depth 1 --direction SHORT
+- Only equities? -> varrd edges --depth 1 --asset-class equities
+- Test YOUR idea? -> varrd research "your idea"
 - Hands-free discovery -> varrd discover "topic"
-
-HOW TO ASK GREAT RESEARCH QUESTIONS:
-- Be specific: "When wheat drops 3 consecutive days after new monthly
-  highs, is there a snap-back?" not "find patterns in wheat"
-- Cross-market: "Load TLT and CL. When bonds sell off for a week,
-  does crude follow?"
-- Expert council: "Use the ELROND council on ES" — 8 specialists
-  (momentum, volatility, regime, chartist, flow, seasonality, quant,
-  cross-market) each return calibrated formulas
+- Morning briefing -> varrd briefing
 
 DATA COVERAGE:
 - Futures (CME): ES, NQ, CL, GC, SI, ZW, ZC, ZS, ZB, TY, HG, NG + more
-  1h+ timeframes, Central Time
-- Stocks/ETFs: Any US equity — daily only, Eastern Time
-- Crypto (Binance): BTC, ETH, SOL + more — 10min+ timeframes, UTC
-
-AUTHENTICATION:
-  First call auto-creates an anonymous agent account. Credentials saved
-  to ~/.varrd/credentials. Your passkey (VARRD-XXXX...) is printed once
-  on first use — SAVE IT. You need it to reconnect and to link your
-  research to a browser account.
+  1h through weekly, back to 1985
+- Stocks/ETFs: Any US equity (12,600+ tickers) — 1h through weekly
+- Crypto (Binance): BTC, ETH, SOL + more — 1h through weekly
 
 CREDITS & PAYMENT:
-  New accounts get $2.00 in free credits (~10-20 queries).
-  When credits run low, use: varrd buy-credits
-  This returns a USDC deposit address on Base. Send USDC there, then
-  confirm with: varrd buy-credits --confirm <payment_intent_id>
-  Or buy at https://app.varrd.com (sign in -> Usage & Billing).
+  Sign up at app.varrd.com to get $2.00 in free credits.
+  MCP-only agents start with $0 — use buy-credits to add funds.
+  varrd edges depth=0, search, hypothesis, balance are FREE.
+  varrd edges depth=1 costs $0.50, depth=2 costs $1/edge or $5/all.
+  Research costs ~$0.25/query. Autonomous discovery ~$1/idea.
 
-LINKING AGENT TO BROWSER ACCOUNT:
-  Your user can link this agent to their app.varrd.com account.
-  This MERGES everything — credits combine, all strategies transfer,
-  and research history is preserved.
+AUTHENTICATION:
+  First call auto-creates an agent identity. Credentials saved to
+  ~/.varrd/credentials. Your passkey (VARRD-XXXX...) is printed once
+  on first use — SAVE IT.
 
-  How to link:
-    1. User signs in at https://app.varrd.com
-    2. Clicks avatar -> Connect Agent -> Merge an Existing Agent
-    3. Enters your passkey (VARRD-XXXX...)
-    4. Done — agent and browser account are now unified.
-
-  Tell your user their passkey when they ask about connecting.
+  To get $2 free credits and link to a browser account:
+    1. Sign up at https://app.varrd.com
+    2. Click avatar -> Connect Agent -> Merge an Existing Agent
+    3. Enter your passkey
+    4. Credits combine, everything merges.
 
 MCP ALTERNATIVE:
-  For richer integration, use the MCP (Model Context Protocol) server
-  at https://app.varrd.com/mcp — it provides the same tools with
-  streaming progress, better session management, and automatic
-  instructions injection.
+  For richer integration, use the MCP server at https://app.varrd.com/mcp
+  — streaming progress, 9 tools, automatic instructions, session management.
 """
