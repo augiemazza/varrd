@@ -163,18 +163,23 @@ def cmd_buy_credits(args):
                 print(f"\n  {YELLOW}Payment not yet confirmed.{RESET}")
                 print(f"  Check that USDC was sent, then try again.")
         else:
-            # Deposit address response
             print(f"\n  {BOLD}Buy Credits — ${amount / 100:.2f}{RESET}")
             print(f"  Current balance: ${result.current_balance_cents / 100:.2f}")
-            if result.deposit:
+            if result.checkout_url:
+                # Card payment (default) — Stripe Checkout link
+                print(f"\n  {BOLD}Pay here:{RESET}")
+                print(f"  {GREEN}{result.checkout_url}{RESET}")
+                print(f"\n  After payment, run: {DIM}varrd balance{RESET}")
+            elif result.deposit:
+                # Crypto payment — USDC on Base
                 print(f"\n  {BOLD}Send USDC on Base:{RESET}")
                 print(f"  Amount:  {GREEN}{result.deposit.amount_usdc} USDC{RESET}")
                 print(f"  Address: {BOLD}{result.deposit.address}{RESET}")
                 print(f"  Network: {result.deposit.chain}")
-            print(f"\n  After sending, confirm with:")
-            print(f"  {DIM}varrd buy-credits --confirm {result.payment_intent_id}{RESET}")
-            if result.fallback:
-                print(f"\n  {DIM}Or buy at: {result.fallback.web_ui}{RESET}")
+                print(f"\n  After sending, confirm with:")
+                print(f"  {DIM}varrd buy-credits --confirm {result.payment_intent_id}{RESET}")
+            else:
+                print(f"\n  {DIM}Buy at: https://app.varrd.com (Usage & Billing){RESET}")
 
     except Exception as e:
         _handle_error(e)

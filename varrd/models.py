@@ -196,6 +196,7 @@ class BuyCreditsResult(BaseModel):
     current_balance_cents: int = 0
     purchase_amount_cents: int = 0
     purchase_amount_usd: str = ""
+    checkout_url: str = ""
     deposit: DepositInfo | None = None
     payment_intent_id: str = ""
     instructions: str = ""
