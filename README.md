@@ -40,9 +40,9 @@
 
 ## Two ways to use VARRD
 
-**1. Tell your AI.** Add the MCP config below, then ask: *"What VARRD edges are firing right now?"* Your AI browses the library, shows you what's actionable, and drills into any edge's full methodology and performance.
+**1. Tell your AI.** Add the MCP config below, then ask: *"What VARRD edges are firing right now?"* or *"What happens to gold when silver ETFs are making 100-day new lows?"* Your AI browses the edge library, shows you what's actionable, and can test any idea you throw at it.
 
-**2. Use the web app.** Go to [app.varrd.com](https://app.varrd.com), sign up, and browse the edge library directly. Research your own ideas in the chat. Everything is visual — charts, equity curves, trade history.
+**2. Use the web app.** Go to [app.varrd.com](https://app.varrd.com), sign up, and do the same thing — browse the edge library, ask questions like *"Is there a seasonal pattern in wheat before harvest?"*, and watch the full research pipeline run visually.
 
 ```json
 {
