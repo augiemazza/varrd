@@ -1,14 +1,63 @@
-# VARRD
+<p align="center">
+  <img src="assets/varrd-logo.png" alt="VARRD" width="280" />
+</p>
 
-[![PyPI](https://img.shields.io/pypi/v/varrd)](https://pypi.org/project/varrd/)
-[![MCP](https://img.shields.io/badge/MCP-9_tools-blue)](https://app.varrd.com/mcp)
-[![Transport](https://img.shields.io/badge/transport-Streamable_HTTP-green)](https://app.varrd.com/mcp)
-[![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
-[![Edges](https://img.shields.io/badge/live_edges-300+-gold)](https://app.varrd.com)
+<p align="center">
+  <strong>The governed live edge layer.</strong><br/>
+  Statistically validated market behaviors, monitored in real time.
+</p>
 
-**The governed live edge layer.** Statistically validated market behaviors, monitored in real time, with sample size, out-of-sample performance, decay, correlation, exposure, and execution context.
+<p align="center">
+  <a href="https://pypi.org/project/varrd/"><img src="https://img.shields.io/pypi/v/varrd" alt="PyPI" /></a>
+  <a href="https://app.varrd.com/mcp"><img src="https://img.shields.io/badge/MCP-9_tools-blue" alt="MCP" /></a>
+  <a href="https://app.varrd.com/mcp"><img src="https://img.shields.io/badge/transport-Streamable_HTTP-green" alt="Transport" /></a>
+  <a href="https://app.varrd.com"><img src="https://img.shields.io/badge/live_edges-300+-gold" alt="Edges" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="License" /></a>
+</p>
+
+<p align="center">
+  <a href="https://app.varrd.com">Web App</a> · <a href="https://app.varrd.com/mcp">MCP Endpoint</a> · <a href="https://pypi.org/project/varrd/">PyPI</a> · <a href="https://www.varrd.com">Landing Page</a>
+</p>
+
+---
+
+<p align="center">
+  <img src="assets/edge-chart.png" alt="VARRD Edge — Crude Oil with entry, stop, and signal" width="100%" />
+</p>
+
+<p align="center">
+  <em>Every edge shows exact entry, stop, target, and the full statistical methodology behind it.</em>
+</p>
+
+<p align="center">
+  <img src="assets/edge-library.png" alt="VARRD Edge Library — 300+ edges with equity curves, Monte Carlo, SQN" width="100%" />
+</p>
+
+<p align="center">
+  <em>300+ validated edges with equity curves, Monte Carlo simulations, regime analysis, and edge decay tracking.</em>
+</p>
+
+---
+
+Sample size. Out-of-sample performance. Decay. Regime sensitivity. Execution context. Every edge fully transparent, auditable, and machine-readable.
 
 Built by a team from one of the most successful derivatives firms in Chicago history, alongside Princeton graduates and AI engineers. NVIDIA Inception member. Validated by quants across the country.
+
+---
+
+## Connect your AI in 10 seconds
+
+```json
+{
+  "mcpServers": {
+    "varrd": { "url": "https://app.varrd.com/mcp" }
+  }
+}
+```
+
+Then just ask: *"What trading edges are firing right now?"*
+
+Your AI browses 300+ validated edges, shows you the ones that are actionable, and can drill into the full methodology, performance, and risk on any edge you're interested in.
 
 ---
 
@@ -27,24 +76,6 @@ Every edge in the library is:
 When an edge fires, you get exact entry, stop, target, hold period, and the full methodology behind it.
 
 ---
-
-## Connect your AI in 10 seconds
-
-Add this to your Claude Desktop, Cursor, or any MCP client:
-
-```json
-{
-  "mcpServers": {
-    "varrd": {
-      "url": "https://app.varrd.com/mcp"
-    }
-  }
-}
-```
-
-Then ask: *"What edges are firing right now?"*
-
-Your AI gets 9 tools — browse the edge library, drill into any edge's full methodology, run your own research, or let VARRD discover edges autonomously.
 
 ---
 
