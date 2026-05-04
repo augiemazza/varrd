@@ -102,18 +102,24 @@ If an edge is decaying, you see it. If the post-discovery performance doesn't ma
 
 ## What you get at each tier
 
-### Free — which markets have edges firing
+### Free — which edges are firing, with names and direction
 
-See which markets have validated edges that are firing right now, pending bar close, or in active trades. Markets and status only — no direction, no stats, no trade levels.
+See which validated edges are firing right now, pending bar close, or in active trades. Markets, direction, and edge names — free.
 
 ```
-VARRD Edge Library — 12 firing, 0 pending, 38 in active trades
+VARRD Edge Library — 3 firing, 12 pending bar close, 35 in active trades
 
 FIRING (actionable now):
-  CL daily  — 9d713707-4548-462e-a787-676e56ec3a0b
-  ES daily  — f5413c2c-5241-4760-bfd3-24cebcf5e2b9
-  AAPL daily — 798c0e5f-4c71-453c-a168-fc3b0771e506
-  NQ daily  — 392979b1-d8dc-4b38-8b0c-13caca1aeaf8
+  AAPL daily LONG · 20-bar breakout with RSI(2) > 70 in 200MA uptrend
+    798c0e5f-4c71-453c-a168-fc3b0771e506
+  Crude Oil daily LONG · CL/NG 20-day correlation collapse
+    9d713707-4548-462e-a787-676e56ec3a0b
+  Gold daily LONG · Gold closes above 10-day high with rising OBV
+    081ab7f2-edfb-4f74-add8-6fc90aca3561
+
+FREE: markets, direction, edge names (above)
+$0.50: win rate, EV, stop/target, entry date for ALL edges (depth=1)
+$1/edge or $5/all: full formula, methodology, performance (depth=2)
 ```
 
 ### $0.50 — 15-minute snapshot of all active edges
@@ -200,6 +206,26 @@ varrd research "Does buying SPY after 3 down days work?"
 varrd discover "momentum on grains"
 varrd briefing
 ```
+
+---
+
+## Questions VARRD can answer
+
+These are real things you can ask. VARRD loads the data, builds the formula, tests it statistically, and tells you if there's an edge.
+
+> *"Is there an edge to going long Starbucks on their Red Cup Day?"*
+
+> *"What happens to gold futures when yen and 10-year bonds make 20-day new highs on the same day?"*
+
+> *"Take a look at crude oil on a 240-minute timeframe right now — diagnose how it's acting and let's find every time it's happened in the past and if there's an edge."*
+
+> *"Does it test out to short fast food companies during Lent?"*
+
+> *"What happens to Bitcoin after a halving event?"*
+
+> *"When corn and soybeans diverge by more than 2 standard deviations, is there a mean reversion trade?"*
+
+Every question becomes a hypothesis, gets charted with real data, statistically tested with proper guardrails (Bonferroni correction, K-tracking, lookahead verification), and produces a clear verdict: edge or no edge. Both answers are valuable.
 
 ---
 
