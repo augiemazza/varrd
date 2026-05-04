@@ -311,7 +311,7 @@ def _print_welcome():
   {BOLD}AI agent?{RESET} Run: varrd agent-instructions
 
   MCP (recommended for AI): https://app.varrd.com/mcp
-  Docs: https://github.com/varrd-ai/varrd
+  Docs: https://github.com/augiemazza/varrd
 """)
 
 
@@ -338,8 +338,9 @@ def cmd_mcp(args):
     try:
         from varrd.auth import get_credentials
         creds = get_credentials()
-        if creds and creds.get("api_key"):
-            session.headers["X-Agent-Key"] = creds["api_key"]
+        token = creds.get("token") or creds.get("api_key")
+        if token:
+            session.headers["Authorization"] = f"Bearer {token}"
     except Exception:
         pass
 
@@ -353,7 +354,7 @@ def cmd_mcp(args):
             continue
 
         try:
-            resp = session.post(mcp_url, json=msg, timeout=30)
+            resp = session.post(mcp_url, json=msg, timeout=300)
             ct = resp.headers.get("Content-Type", "")
             if "text/event-stream" in ct:
                 # SSE — collect all data events, return the last result

@@ -115,15 +115,18 @@ class VARRD:
         edge_id: str | None = None,
         market: str | None = None,
         status: str | None = None,
+        direction: str | None = None,
+        timeframe: str | None = None,
+        asset_class: str | None = None,
         section: str | None = None,
     ) -> EdgesResult:
         """Browse VARRD's validated edge library.
 
         Three tiers:
             depth=0 (free):  Markets and status only — see what's firing.
-            depth=1 ($0.50): Direction, stats, trade levels for all edges.
-            depth=2 ($1/edge or $5/all): Full methodology, formula,
-                performance analytics. Use section= to drill into
+            depth=1 ($0.50): 15-min snapshot with direction, stats, trade levels.
+            depth=2 ($1/edge or $5/all): Full audit trail — methodology,
+                formula, performance. Use section= to drill into
                 setup_code, horizons, analytics, occurrences, or view.
 
         Args:
@@ -131,6 +134,9 @@ class VARRD:
             edge_id: Specific edge ID for detail. Omit for all edges.
             market: Filter by market symbol (e.g. 'ES', 'GC').
             status: Filter: 'firing', 'pending', 'active'.
+            direction: Filter: 'LONG' or 'SHORT'.
+            timeframe: Filter: '60min', '120min', '240min', '360min', '480min', 'daily', 'weekly'.
+            asset_class: Filter: 'futures', 'equities', 'crypto'.
             section: Drill-down after depth=2 purchase (free):
                 setup_code, horizons, analytics, occurrences, view.
 
@@ -144,6 +150,12 @@ class VARRD:
             args["market"] = market
         if status:
             args["status"] = status
+        if direction:
+            args["direction"] = direction
+        if timeframe:
+            args["timeframe"] = timeframe
+        if asset_class:
+            args["asset_class"] = asset_class
         if section:
             args["section"] = section
         data = self._call_tool("varrd_edges", args)
@@ -466,7 +478,7 @@ class VARRD:
             "params": {
                 "protocolVersion": "2025-03-26",
                 "capabilities": {},
-                "clientInfo": {"name": "varrd-python", "version": "0.1.0"},
+                "clientInfo": {"name": "varrd-python", "version": __import__('varrd._version', fromlist=['__version__']).__version__},
             },
         })
 
