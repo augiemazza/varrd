@@ -100,11 +100,18 @@ AUTHENTICATION:
   ~/.varrd/credentials. Your passkey (VARRD-XXXX...) is printed once
   on first use — SAVE IT.
 
-  To get $2 free credits and link to a browser account:
-    1. Sign up at https://app.varrd.com
-    2. Click avatar -> Connect Agent -> Merge an Existing Agent
-    3. Enter your passkey
-    4. Credits combine, everything merges.
+  GET $2 FREE (takes ~1 minute):
+    1. Sign up at https://app.varrd.com (verify email)
+    2. Click avatar (top right) -> Manage Agents
+    3. Copy the MCP config JSON shown there
+    4. Paste into your MCP client config (e.g. claude_desktop_config.json)
+    5. Restart — your agent now has $2 free credits and full account access
+
+  MERGE AN EXISTING AGENT (if you already used VARRD without signing up):
+    1. Sign in at https://app.varrd.com
+    2. Click avatar -> Manage Agents -> Merge an Existing Agent
+    3. Enter the passkey (VARRD-XXXX...) from your first connection
+    4. Credits, strategies, and history from both accounts combine
 
 MCP ALTERNATIVE:
   For richer integration, use the MCP server at https://app.varrd.com/mcp
