@@ -1,7 +1,7 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
   "name": "varrd",
-  "description": "AI trading research: turn any trading idea into a statistically validated edge with real market data, event studies, backtesting, and SL/TP optimization. Covers stocks, futures, and crypto.",
+  "description": "The governed live edge layer. Browse validated trading edges firing in real time, or test your own ideas with institutional-grade statistical methodology. Full transparency — every edge shows its formula, methodology, post-discovery performance, and audit trail.",
   "homepage": "https://www.varrd.com",
   "license": "MIT",
   "repository": "https://github.com/augiemazza/varrd",

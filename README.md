@@ -2,342 +2,290 @@
 
 # VARRD
 <!-- mcp-name: io.github.augiemazza/varrd -->
+<p align="center">
+  <img src="assets/varrd-logo-gold.jpg" alt="VARRD" width="320" />
+</p>
 
-[![PyPI](https://img.shields.io/pypi/v/varrd)](https://pypi.org/project/varrd/)
-[![MCP](https://img.shields.io/badge/MCP-9_tools-blue)](https://app.varrd.com/mcp)
-[![Transport](https://img.shields.io/badge/transport-Streamable_HTTP-green)](https://app.varrd.com/mcp)
-[![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
-[![MCP Badge](https://lobehub.com/badge/mcp/augiemazza-varrd)](https://lobehub.com/mcp/augiemazza-varrd)
+<p align="center">
+  <strong>The governed live edge layer.</strong><br/>
+  Statistically validated market behaviors, monitored in real time.
+</p>
 
-**Turn any trading idea into a statistically validated edge in about 3 minutes.**
+<p align="center">
+  <a href="https://pypi.org/project/varrd/"><img src="https://img.shields.io/pypi/v/varrd" alt="PyPI" /></a>
+  <a href="https://app.varrd.com/mcp"><img src="https://img.shields.io/badge/MCP-9_tools-blue" alt="MCP" /></a>
+  <a href="https://app.varrd.com/mcp"><img src="https://img.shields.io/badge/transport-Streamable_HTTP-green" alt="Transport" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="License" /></a>
+</p>
+
+<p align="center">
+  <a href="https://app.varrd.com">Web App</a> · <a href="https://app.varrd.com/mcp">MCP Endpoint</a> · <a href="https://pypi.org/project/varrd/">PyPI</a> · <a href="https://www.varrd.com">varrd.com</a>
+</p>
+
+---
+
+<p align="center">
+  <img src="assets/edge-chart.png" alt="VARRD Edge — Crude Oil with entry, stop, and signal" width="100%" />
+</p>
+
+<p align="center">
+  <em>Every edge shows exact entry, stop, target, and the full statistical methodology behind it.</em>
+</p>
+
+<p align="center">
+  <img src="assets/edge-library.png" alt="VARRD Edge Library with equity curves, Monte Carlo, and edge quality metrics" width="100%" />
+</p>
+
+<p align="center">
+  <em>Equity curves, Monte Carlo simulations, regime analysis, edge decay, and full audit trail.</em>
+</p>
+
+---
+
+## Two ways to use VARRD
+
+**1. Tell your AI.** Add the MCP config below, then ask: *"What VARRD edges are firing right now?"* or *"What happens to gold when silver ETFs are making 100-day new lows?"* Your AI browses the edge library, shows you what's actionable, and can test any idea you throw at it.
+
+**2. Use the web app.** Go to [app.varrd.com](https://app.varrd.com), sign up, and do the same thing — browse the edge library, ask questions like *"Is there a seasonal pattern in wheat before harvest?"*, and watch the full research pipeline run visually.
+
+```json
+{
+  "mcpServers": {
+    "varrd": { "url": "https://app.varrd.com/mcp" }
+  }
+}
+```
+
+Works with Claude Desktop, Cursor, OpenBB, or any MCP client. No API key needed.
+
+---
+
+## What VARRD does
+
+VARRD turns trading ideas into quantitative formulas using a domain-specific language we built from the ground up — purpose-built to express market behaviors in a way that's both machine-testable and human-readable. Those formulas are then tested with the right guardrails so the results actually mean something.
+
+The AI generates hypotheses. **A purpose-built backtesting engine does the math.** The AI never calculates statistics, never fabricates results, and never touches the numbers. Every stat comes from a deterministic computation running in a sandboxed kernel. This matters because most people's first question is: *"How do I know the AI isn't just making this up?"* It can't. The engine is separate from the model.
+
+VARRD also maintains a growing library of validated edges — patterns that survived the full testing gauntlet — running 24/7 against live market data across futures, equities, and crypto. When an edge fires, you get exact entry, stop, target, hold period, and the complete audit trail of how it was discovered, tested, and validated.
+
+---
+
+## Full transparency
+
+Every edge in the library shows you everything. Not summaries — the actual work.
+
+**How it was found:** The discovery story — what pattern was hypothesized, why it might work, what market structure theory it's based on. You can read the exact thinking that led to the formula.
+
+**The formula itself:** Written in our domain-specific language built to quantify market behaviors and make them replicable. You can read every condition, understand the logic, and verify there's no data leak or circular reasoning. The setup code and the boolean formula are both visible.
+
+**How it was tested:** Per-horizon results showing win rate, expected value, p-value, and signal count at every hold period tested. K-tracking shows how many tests were run on this hypothesis — and every test is fingerprinted so you can't re-run the same thing hoping for a better number. Vectorized embeddings with cosine similarity detect when a new hypothesis overlaps with one already tested — if you're just tweaking the same idea, the system catches it and penalizes accordingly. Lookahead verification confirms signals reproduce on truncated data.
+
+**How it's performing now:** Post-discovery performance tracked separately from in-sample. Edge decay by quarter. Rolling stability. Regime analysis (how it performs in low vol, high vol, uptrends, downtrends). Monte Carlo simulation. Drawdown analysis. The full picture — not just a win rate.
+
+**The interactive view:** Every edge has a browser link that shows the chart with every signal marked, the equity curve, the full performance dashboard, and the discovery story. Share it with anyone — no account needed.
+
+If an edge is decaying, you see it. If the post-discovery performance doesn't match in-sample, you see it. If it only works in bull markets, you see it. Nothing is hidden.
+
+---
+
+## What the guardrails prevent
+
+| Problem | How it happens | VARRD's guard |
+|---------|---------------|---------------|
+| **Overfitting** | Tweak until it looks good on history | OOS is sacred — one shot, permanently locked |
+| **Cherry-picking** | Test 50 variants, show the winner | K-tracking counts every test, adjusts significance |
+| **p-hacking** | Massage until "significant" | Bonferroni correction, fingerprinted tests |
+| **Duplicate testing** | Reword the same idea to dodge K | Cosine similarity on vectorized embeddings detects overlapping hypotheses |
+| **Lookahead bias** | Future data leaks into formula | Sandbox kernel + automated truncated-data verification |
+| **OOS contamination** | Peek at holdout, then "validate" | Once used, permanently locked. No re-runs. |
+| **Fabricated stats** | AI invents numbers | Engine computes, AI interprets. Separate systems. |
+| **Slippage ignored** | Backtest assumes perfect fills | ATR-normalized returns account for volatility regime |
+| **Commission ignored** | Gross returns look great, net don't | Explicit in backtest engine, factored into P&L |
+
+---
+
+## What you get at each tier
+
+### Free — which markets have edges firing
+
+See which markets have validated edges that are firing right now, pending bar close, or in active trades. Markets and status only — no direction, no stats, no trade levels.
+
+```
+VARRD Edge Library — 3 firing, 12 pending bar close, 35 in active trades
+
+FIRING (actionable now):
+  AAPL daily — 798c0e5f-4c71-453c-a168-fc3b0771e506
+  Crude Oil daily — 9d713707-4548-462e-a787-676e56ec3a0b
+  Gold daily — 081ab7f2-edfb-4f74-add8-6fc90aca3561
+
+$0.50: unlock direction, win rate, EV, stop/target, entry date for ALL edges (depth=1)
+$1/edge or $5/all: full formula, methodology, performance analytics (depth=2)
+```
+
+### $0.50 — 15-minute snapshot of all active edges
+
+Unlocks direction, win rate, EV, stops, entry date, and hold period for every firing, pending, and active edge. This is a 15-minute window — a snapshot of what's live right now.
+
+```
+  NQ daily LONG | FIRING — enter 2026-05-04 OPEN
+    64% win | 0.51 EV | 1419 signals | stop $27,200 target $29,785 | hold 10
+    "NQ 13-day ROC positive 5 days then declining, weekly RSI > 55"
+```
+
+### $1/edge — full audit trail
+
+The complete methodology for one edge. TRADE details, PERFORMANCE with post-discovery tracking, INTEGRITY (K-tracking, lookahead verification, beats-market), DISCOVERY story, FORMULA in our domain-specific language, and drill-down sections:
+
+- **horizons** — Win rate, EV, p-value, signal count at every hold period
+- **analytics** — SQN, profit factor, Kelly %, Monte Carlo, drawdown, regime analysis, edge decay
+- **occurrences** — Every historical signal with date and ATR return
+- **setup_code** — Full source code in our DSL (auditable)
+- **view** — Interactive chart + discovery story link for your user
+
+```
+EDGE QUALITY
+  SQN: 6.46 (Excellent)
+  Profit Factor: 1.66
+  Kelly %: 25.4%
+  Best Streak: 25W · Worst Streak: 16L
+
+MONTE CARLO
+  500 simulations · 98% profitable
+  Median: +44.49 ATR · Worst 5%: +8.56 ATR
+
+REGIME ANALYSIS
+  Low Vol (VIX < 15)    59% WR · +0.38 ATR
+  Normal (VIX 15-25)    66% WR · +0.54 ATR
+  High Vol (VIX > 25)   75% WR · +1.07 ATR
+```
+
+### $5 — everything on every edge
+
+Full audit trail on every active edge in the library. Same depth as the $1 tier, but for all of them.
+
+---
+
+## Python SDK
 
 ```bash
 pip install varrd
 ```
 
-## Ask it anything
-
-```bash
-varrd research "Does buying SPY after a 3-day losing streak actually work?"
-
-varrd research "When VIX spikes above 30, is there a bounce in ES?"
-
-varrd research "Is there a seasonal pattern in wheat before harvest?"
-
-varrd research "What happens to gold when the dollar drops 3 days straight?"
-
-varrd research "Does Bitcoin rally after the halving?"
-
-varrd research "When crude oil drops 5% in a week, what happens next?"
-```
-
-Every question gets real data, a chart with signals marked, a statistical test, and a definitive answer.
-
-## What you get back
-
-### Edge found
-```
-STRONG EDGE — Statistically significant vs both zero and market baseline.
-
-  Direction:    LONG
-  Win Rate:     62%
-  Sharpe:       1.45
-  Signals:      247
-
-  Trade Setup:
-    Entry:       $5,150.25
-    Stop Loss:   $5,122.00
-    Take Profit: $5,192.50
-    Risk/Reward: 1:1.5
-```
-
-### No edge
-```
-NO EDGE — Neither test passed. No tradeable signal found.
-
-You found out for 25 cents instead of $25,000 in live losses.
-```
-
-Both are valuable results.
-
----
-
-## Why can't I just ask Claude / ChatGPT to do this?
-
-Because testing trading ideas properly is **really hard to get right**, and there are a dozen ways to accidentally produce fake results that look great but lose money in production.
-
-An LLM by itself will happily write you a backtest, show you a beautiful equity curve, and tell you it has a 70% win rate. The problem: none of it is real. The LLM doesn't have market data, doesn't have a testing environment, and has no guardrails preventing it from overfitting, cherry-picking, or just making numbers up.
-
-Even if you give an LLM real data (like in Claude Code or Cursor), it still can't do this properly. Here's why:
-
-**What can go wrong when testing trading ideas — and what VARRD handles:**
-
-- **Overfitting** — Tweaking a strategy until it looks good on past data. VARRD holds out unseen data and tests on it once. You can't re-run it after peeking at results.
-- **Cherry-picking results** — Testing 50 variations and only showing the winner. VARRD tracks every test you run and raises the significance bar automatically the more you test.
-- **p-hacking** — Massaging the numbers until you get a "significant" result. VARRD corrects for multiple comparisons so a lucky result doesn't pass as real.
-- **Lookahead bias** — Accidentally using future data in your formula. VARRD runs in a sandboxed kernel that makes this structurally impossible.
-- **Wrong test type** — Some ideas need forward-return analysis, others need full simulations with stops and targets. VARRD has a team of specialized agents that determine the right test for each question.
-- **Cross-market contamination** — Testing on one market but the signal actually came from another. VARRD isolates and aligns data across markets and timeframes.
-- **Fabricated statistics** — LLMs will invent numbers to sound confident. In VARRD, every stat comes from a deterministic calculation. The AI interprets results, it never generates them.
-- **ATR-based position sizing** — Real edges need real risk management. VARRD calculates stop losses and take profits based on actual volatility, not arbitrary percentages.
-- **Showing what's happening right now** — A validated edge is useless if you can't see when it's firing. VARRD scans live data and tells you exactly when your signals are active, with fresh entry and exit levels.
-
-**An LLM is a brain without a lab.** It can reason about trading ideas, but it can't test them in a controlled environment. VARRD is the lab — purpose-built infrastructure where every test is tracked, every result is verified, and the dozen ways to accidentally cheat are blocked at the system level, not the prompt level.
-
----
-
-## Quick start — Python
-
 ```python
 from varrd import VARRD
-
-v = VARRD()  # auto-creates free account, $2 in credits
-
-# Research a trading idea
-r = v.research("When RSI drops below 25 on ES, is there a bounce?")
-r = v.research("test it", session_id=r.session_id)
-
-print(r.context.edge_verdict)  # "STRONG EDGE" / "NO EDGE"
-
-# Get exact trade levels
-r = v.research("show me the trade setup", session_id=r.session_id)
-```
-
-```python
-# What's firing right now across all your strategies?
-signals = v.scan(only_firing=True)
-for s in signals.results:
-    print(f"{s.name}: {s.direction} {s.market} @ ${s.entry_price}")
-```
-
-```python
-# Morning briefing — today's news connected to your specific edges
-b = v.briefing()
-print(b.news)
-# "**ES selling accelerates into the open** Three consecutive lower highs..."
-# "↳ Your ES mean-reversion setups are live territory here..."
-```
-
-```python
-# Let VARRD discover edges autonomously
-result = v.discover("mean reversion on futures")
-print(result.edge_verdict, result.market, result.win_rate)
-```
-
-## Quick start — CLI
-
-```bash
-# Full research workflow (auto-follows chart → test → trade setup)
-varrd research "When wheat drops 3 days in a row, is there a snap-back?"
-
-# What's firing right now?
-varrd scan --only-firing
-
-# Personalized market briefing — news filtered to your edge library
-varrd briefing
-
-# Search saved strategies
-varrd search "momentum on grains"
-
-# Let VARRD discover edges on its own
-varrd discover "mean reversion on futures"
-```
-
----
-
-## Use with AI agents
-
-### Claude Desktop / Claude Code / Cursor
-
-**Option 1 — Direct HTTP (Claude Code, Cursor, OpenBB):**
-
-```json
-{
-  "mcpServers": {
-    "varrd": {
-      "transport": {
-        "type": "streamable-http",
-        "url": "https://app.varrd.com/mcp"
-      }
-    }
-  }
-}
-```
-
-**Option 2 — via mcp-remote (Claude Desktop, any stdio client):**
-
-```json
-{
-  "mcpServers": {
-    "varrd": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://app.varrd.com/mcp"]
-    }
-  }
-}
-```
-
-No API key needed. Then just ask: *"Is there a pattern when gold spikes after a Fed rate decision?"*
-
-### OpenBB Workspace
-
-VARRD plugs directly into [OpenBB Workspace](https://openbb.co) as an MCP server:
-
-1. Open Workspace → click "+" in the MCP server panel
-2. Enter `https://app.varrd.com/mcp`
-3. VARRD's tools appear in your Copilot — research ideas, scan signals, search strategies
-
-OpenBB gives you the data. VARRD tells you if your idea has an edge.
-
-### Trading bots (Freqtrade, Jesse, Hummingbot, OctoBot, NautilusTrader)
-
-VARRD validates that your strategy has a real edge **before** you deploy it. Works with any bot:
-
-```python
-from varrd import VARRD
-from varrd.freqtrade import generate_strategy
 
 v = VARRD()
-result = v.discover("RSI oversold reversal on BTC")
 
-if result.has_edge:
-    hyp = v.get_hypothesis(result.hypothesis_id)
-    strategy_code, config = generate_strategy(hyp)
-    # Drop into your bot's strategies/ folder and run it
+# Browse the edge library
+edges = v.edges()                              # free — which markets are firing
+edges = v.edges(depth=1)                       # $0.50 — snapshot with stats + levels
+edges = v.edges(depth=1, direction="SHORT")    # filter by direction
+edges = v.edges(depth=1, asset_class="futures") # filter by asset class
+edges = v.edges(depth=2, edge_id="abc123")     # $1 — full audit trail
+
+# Research your own ideas
+r = v.research("When RSI drops below 25 on ES, is there a bounce?")
+r = v.research("test it", session_id=r.session_id)
+print(r.context.edge_verdict)  # "STRONG EDGE" / "NO EDGE"
+
+# Autonomous discovery
+result = v.discover("mean reversion on futures")
+
+# Morning briefing
+b = v.briefing()
+print(b.news)
 ```
 
-| Bot | How VARRD plugs in |
-|-----|--------------------|
-| [Freqtrade](https://github.com/freqtrade/freqtrade) | `varrd.freqtrade` generates ready-to-run IStrategy files with ATR stops |
-| [Jesse](https://github.com/jesse-ai/jesse) | `varrd.jesse` generates ready-to-run Strategy files with ATR stops |
-| [Hummingbot](https://github.com/hummingbot/hummingbot) | Validate directional signals before deploying to market-making |
-| [OctoBot](https://github.com/Drakkar-Software/OctoBot) | Pre-validate any tentacle strategy through VARRD's MCP server |
-| [NautilusTrader](https://github.com/nautechsystems/nautilus_trader) | Statistical edge validation before live deployment |
-
-The pattern: validate first, deploy second. Most strategies don't survive statistical testing — better to find out for $0.25 than $25,000.
-
-### CrewAI
-
-```python
-from crewai import Agent, Task, Crew
-
-researcher = Agent(
-    role="Trading Researcher",
-    goal="Find statistically validated trading edges",
-    backstory="You are a quantitative researcher who tests trading ideas rigorously.",
-    mcps=[{"type": "streamable-http", "url": "https://app.varrd.com/mcp"}]
-)
-
-task = Task(
-    description="Research whether RSI oversold conditions on ES lead to a bounce within 5 days.",
-    agent=researcher,
-    expected_output="Edge verdict with trade setup if edge is found."
-)
-
-crew = Crew(agents=[researcher], tasks=[task])
-result = crew.kickoff()
-```
-
-### LangChain / LangGraph
-
-```python
-from langchain_mcp_adapters.client import MultiServerMCPClient
-from langgraph.prebuilt import create_react_agent
-from langchain_anthropic import ChatAnthropic
-
-model = ChatAnthropic(model="claude-sonnet-4-20250514")
-
-async with MultiServerMCPClient({
-    "varrd": {"url": "https://app.varrd.com/mcp", "transport": "streamable_http"}
-}) as client:
-    agent = create_react_agent(model, client.get_tools())
-    result = await agent.ainvoke({"messages": [
-        {"role": "user", "content": "Does gold rally when the dollar drops 3 days in a row?"}
-    ]})
-```
-
-### Raw MCP (any client)
+## CLI
 
 ```bash
-# Any MCP-compatible client can connect to:
-https://app.varrd.com/mcp
-# Transport: Streamable HTTP | No auth required | $2 free credits
+varrd edges                                    # free — which markets are firing
+varrd edges --depth 1                          # $0.50 — snapshot with stats + levels
+varrd edges --depth 2 --edge-id abc123         # $1 — full audit trail
+varrd research "Does buying SPY after 3 down days work?"
+varrd discover "momentum on grains"
+varrd briefing
 ```
 
 ---
 
-## 8 statistical guardrails (infrastructure-enforced)
+## Questions VARRD can answer
 
-Every test runs through these automatically. You can't skip them.
+These are real things you can ask. VARRD loads the data, builds the formula, tests it statistically, and tells you if there's an edge.
 
-| Guardrail | What It Prevents |
-|-----------|-----------------|
-| **K-Tracking** | Tests 50 variations of the same idea? Significance bar goes up automatically. |
-| **Bonferroni Correction** | Multiple comparison penalty. No p-hacking. |
-| **OOS Lock** | Out-of-sample is one shot. Can't re-run after seeing results. |
-| **Lookahead Detection** | Catches formulas that accidentally use future data. |
-| **Tools Calculate, AI Interprets** | Every number comes from real data. AI never fabricates stats. |
-| **Chart → Approve → Test** | You see and approve the pattern before spending statistical power. |
-| **Fingerprint Dedup** | Can't retest the same formula/market/horizon twice. |
-| **No Post-OOS Optimization** | Parameters lock after out-of-sample validates. |
+> *"Is there an edge to going long Starbucks on their Red Cup Day?"*
+
+> *"What happens to gold futures when yen and 10-year bonds make 20-day new highs on the same day?"*
+
+> *"Take a look at crude oil on a 240-minute timeframe right now — diagnose how it's acting and let's find every time it's happened in the past and if there's an edge."*
+
+> *"Does it test out to short fast food companies during Lent?"*
+
+> *"What happens to Bitcoin after a halving event?"*
+
+> *"When corn and soybeans diverge by more than 2 standard deviations, is there a mean reversion trade?"*
+
+Every question becomes a hypothesis, gets charted with real data, statistically tested with proper guardrails (Bonferroni correction, K-tracking, lookahead verification), and produces a clear verdict: edge or no edge. Both answers are valuable.
 
 ---
 
 ## Data coverage
 
 | Asset Class | Markets | Timeframes |
-|------------|---------|------------|
-| **Futures** (CME) | ES, NQ, CL, GC, SI, ZW, ZC, ZS, ZB, TY, HG, NG + 20 more | 1h and above |
-| **Stocks / ETFs** | Any US equity | Daily |
-| **Crypto** (Binance) | BTC, ETH, SOL + more | 10min and above |
+|-------------|---------|------------|
+| **Futures (CME)** | 35 markets (ES, NQ, CL, GC, SI, ZC, ZW, NG, ...) | 1h through weekly, back to 1985 |
+| **Equities** | Any US stock or ETF (12,600+ tickers) | 1h through weekly |
+| **Crypto** | BTC, ETH, SOL and more | 1h through weekly |
 
-15,000+ instruments total.
+---
 
 ## MCP tools
 
-| Tool | Cost | What It Does |
-|------|------|--------------|
-| `research` | ~$0.25 | Multi-turn quant research. Orchestrates 15 internal tools. |
-| `autonomous_research` | ~$0.25 | AI discovers edges for you. Give it a topic, get validated results. |
-| `scan` | Free | Scan strategies against live data. Fresh entry/stop/target prices. |
-| `search` | Free | Find strategies by keyword or natural language. |
-| `get_hypothesis` | Free | Full details on any strategy. |
-| `check_balance` | Free | View credits and available packs. |
-| `buy_credits` | Free | Buy credits with USDC on Base or Stripe. |
-| `reset_session` | Free | Kill a broken session and start fresh. |
+| Tool | What it does |
+|------|-------------|
+| `varrd_edges` | Browse the validated edge library with filters |
+| `varrd_ai` | Multi-turn research — test any trading idea |
+| `autonomous_varrd_ai` | Autonomous discovery — VARRD finds edges for you |
+| `search` | Search your saved strategies |
+| `get_hypothesis` | Full detail on your own strategy |
+| `check_balance` | Credit balance + auto-detects completed payments |
+| `buy_credits` | Card (Stripe Checkout) or USDC on Base (autonomous) |
+| `get_briefed` | Personalized market news tied to your edge library |
+| `reset_session` | Kill a stuck research session |
+
+---
 
 ## Pricing
 
-- **$2 free** on signup — enough for 6–8 research sessions
-- **Research:** ~$0.20–0.30 per idea tested
-- **Discovery** (autonomous): ~$0.20–0.30
-- **ELROND council** (8 expert investigators): ~$0.40–0.60
-- **Multi-market** (3+ markets): ~$1
-- **Scan, search, balance:** Always free
-- **Credit packs:** $5 / $20 / $50 via Stripe
-- Credits never expire
+| What | Cost | Duration |
+|------|------|----------|
+| See which markets have edges firing | Free | — |
+| Snapshot: stats + trade levels on all active edges | $0.50 | 15 minutes |
+| Full audit trail on one edge | $1 | Permanent |
+| Full audit trail on every edge | $5 | 15 minutes |
+| Research your own ideas | ~$0.25 | Per query |
+| Autonomous discovery | ~$1 | Per idea |
+
+Sign up at [app.varrd.com](https://app.varrd.com) for $2 in free credits.
 
 ---
 
-## Examples
+## Why this exists
 
-See [`examples/`](examples/) for runnable scripts:
+Finding edges is not hard. Finding **non-data-mined edges** with proper precautions at every step is much harder.
 
-- [`quick_start.py`](examples/quick_start.py) — 5 lines to scan all strategies
-- [`research_idea.py`](examples/research_idea.py) — Full multi-turn research workflow
-- [`multi_idea_loop.py`](examples/multi_idea_loop.py) — Test many ideas in a loop
-- [`scan_portfolio.py`](examples/scan_portfolio.py) — Portfolio scan with trade levels
-- [`mcp_config.json`](examples/mcp_config.json) — MCP config for Claude Desktop / Cursor
+An LLM by itself will happily write you a backtest, show you a beautiful equity curve, and tell you it has a 70% win rate. The problem: none of it is real. The LLM doesn't have market data, doesn't have a testing environment, and has no guardrails preventing it from overfitting, cherry-picking, or fabricating numbers.
 
-## For AI agent builders
+**An LLM is a brain without a lab.** It can reason about trading ideas, but it can't test them in a controlled environment. VARRD is the lab — purpose-built infrastructure where every test is tracked, every result is verified, and the dozen ways to accidentally cheat are blocked at the system level, not the prompt level.
 
-See [`AGENTS.md`](AGENTS.md) for the complete integration guide — tool reference, response formats, authentication, and workflow patterns.
+And if you still aren't convinced — we show you everything. The formula, the code, the test results at every horizon, the post-discovery performance, the regime sensitivity, the Monte Carlo simulation, and every single historical occurrence. Full transparency. Audit it yourself.
 
 ---
 
-## Links
+<p align="center">
+  <em>"No edge found" is a result, not a failure. Knowing what doesn't work is as valuable as knowing what does.</em>
+</p>
 
-- **Web app:** [app.varrd.com](https://app.varrd.com)
-- **Website:** [varrd.com](https://www.varrd.com)
-- **MCP endpoint:** `https://app.varrd.com/mcp`
-- **PyPI:** [pypi.org/project/varrd](https://pypi.org/project/varrd/)
+<p align="center">
+  Built by a team from one of the most successful derivatives firms in Chicago history,<br/>alongside Princeton graduates and AI engineers. NVIDIA Inception member.
+</p>

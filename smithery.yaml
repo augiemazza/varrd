@@ -1,0 +1,15 @@
+startCommand:
+  type: http
+  url: https://app.varrd.com/mcp
+  configSchema:
+    type: object
+    properties:
+      apiKey:
+        type: string
+        title: API Key (optional)
+        description: >
+          Your VARRD agent token for reconnecting an existing account.
+          Leave empty — VARRD creates an agent identity automatically.
+          Sign up at app.varrd.com for $2 in free credits, or add
+          credits via the buy_credits tool.
+        default: ""

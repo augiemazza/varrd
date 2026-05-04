@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "varrd"
 dynamic = ["version"]
-description = "Trading edge discovery. Test any idea with real market data."
+description = "The governed live edge layer. Validated trading edges with full transparency — browse what's firing, test your own ideas, or let AI discover edges for you."
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"

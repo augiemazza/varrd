@@ -5,3 +5,5 @@ dist/
 build/
 .eggs/
 .mcpregistry_*
+.mcpregistry_github_token
+.mcpregistry_registry_token

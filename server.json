@@ -1,10 +1,16 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.augiemazza/varrd",
-  "title": "VARRD — AI Trading Research & Backtesting",
-  "description": "AI trading research: event studies, backtesting, statistical validation on stocks, futures, crypto.",
-  "version": "1.0.3",
+  "title": "VARRD — Validated Trading Edge Library + AI Research",
+  "description": "The governed live edge layer. Browse validated trading edges firing right now, or test your own ideas with institutional-grade statistical methodology. Futures, equities, crypto.",
+  "version": "1.0.4",
   "websiteUrl": "https://www.varrd.com",
+  "icons": [
+    {
+      "src": "https://app.varrd.com/logo512.png",
+      "mimeType": "image/png"
+    }
+  ],
   "repository": {
     "url": "https://github.com/augiemazza/varrd",
     "source": "github"
