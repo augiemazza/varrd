@@ -102,24 +102,20 @@ If an edge is decaying, you see it. If the post-discovery performance doesn't ma
 
 ## What you get at each tier
 
-### Free — which edges are firing, with names and direction
+### Free — which markets have edges firing
 
-See which validated edges are firing right now, pending bar close, or in active trades. Markets, direction, and edge names — free.
+See which markets have validated edges that are firing right now, pending bar close, or in active trades. Markets and status only — no direction, no stats, no trade levels.
 
 ```
 VARRD Edge Library — 3 firing, 12 pending bar close, 35 in active trades
 
 FIRING (actionable now):
-  AAPL daily LONG · 20-bar breakout with RSI(2) > 70 in 200MA uptrend
-    798c0e5f-4c71-453c-a168-fc3b0771e506
-  Crude Oil daily LONG · CL/NG 20-day correlation collapse
-    9d713707-4548-462e-a787-676e56ec3a0b
-  Gold daily LONG · Gold closes above 10-day high with rising OBV
-    081ab7f2-edfb-4f74-add8-6fc90aca3561
+  AAPL daily — 798c0e5f-4c71-453c-a168-fc3b0771e506
+  Crude Oil daily — 9d713707-4548-462e-a787-676e56ec3a0b
+  Gold daily — 081ab7f2-edfb-4f74-add8-6fc90aca3561
 
-FREE: markets, direction, edge names (above)
-$0.50: win rate, EV, stop/target, entry date for ALL edges (depth=1)
-$1/edge or $5/all: full formula, methodology, performance (depth=2)
+$0.50: unlock direction, win rate, EV, stop/target, entry date for ALL edges (depth=1)
+$1/edge or $5/all: full formula, methodology, performance analytics (depth=2)
 ```
 
 ### $0.50 — 15-minute snapshot of all active edges
