@@ -4,7 +4,7 @@ VARRD handles financial data, authentication credentials, and payment processing
 
 ## Reporting a Vulnerability
 
-**Do not open a public issue.** Email security findings to:
+For quickest results do not open a public issue. Email security findings to:
 
 **management@varrd.com**
 
