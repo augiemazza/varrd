@@ -1,0 +1,31 @@
+name: Feature Request
+description: Suggest an improvement or new capability
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like?
+      placeholder: Describe the feature and why it matters to you.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Edge Library
+        - Research / Testing
+        - New markets or asset classes
+        - CLI experience
+        - MCP integration
+        - Pricing / Billing
+        - API
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      placeholder: How are you using VARRD today? What problem does this solve?

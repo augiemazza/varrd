@@ -1,0 +1,49 @@
+name: Bug Report
+description: Something isn't working right
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - CLI (`pip install varrd`)
+        - MCP Server (Claude Desktop, Cursor, etc.)
+        - Web App (app.varrd.com)
+        - Edge Library (varrd_edges)
+        - Research / Autonomous mode
+        - Billing / Credits
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      placeholder: Describe what you expected vs what actually happened.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `varrd edges --depth 1`
+        2. See error: "..."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "e.g. 0.4.2 (run `pip show varrd`)"
+  - type: dropdown
+    id: client
+    attributes:
+      label: MCP Client (if applicable)
+      options:
+        - Claude Desktop
+        - Cursor
+        - CLI (`varrd` command)
+        - Python SDK
+        - Other

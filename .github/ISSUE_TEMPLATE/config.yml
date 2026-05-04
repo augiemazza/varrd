@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerability
+    url: mailto:management@varrd.com
+    about: Do NOT open a public issue for security vulnerabilities. Email us directly.
+  - name: Billing / Account Issues
+    url: mailto:management@varrd.com
+    about: For credit balance problems, payment issues, or account questions.

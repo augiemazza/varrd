@@ -1,0 +1,23 @@
+name: Edge Idea
+description: Suggest a trading hypothesis for VARRD to test
+labels: ["edge-idea"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What's the idea?
+      placeholder: |
+        Describe your trading hypothesis in plain language.
+        e.g. "When copper makes a 20-day new high and the dollar index is falling, do gold miners outperform?"
+    validations:
+      required: true
+  - type: input
+    id: markets
+    attributes:
+      label: Markets
+      placeholder: "e.g. GC, SI, AAPL, ES"
+  - type: textarea
+    id: reasoning
+    attributes:
+      label: Why might this work?
+      placeholder: What's the theory behind it? Any prior research or observations?
